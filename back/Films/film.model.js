@@ -5,7 +5,7 @@ var filmsSchema = new mongoose.Schema({
     date: String,
     hall: Number,
     duration: String,
-    places: Array
+    movieSessionId: String
 });
 
 mongoose.model('Film', filmsSchema);

@@ -6,6 +6,7 @@ class ServiceMovieSession {
     }
 
     async createMovieSession(userArg) {
+        console.log(userArg)
         let movieSession = new this.movieSession(userArg);
         movieSession.save();
         return movieSession;
