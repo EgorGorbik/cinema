@@ -3,12 +3,16 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, withRouter} from "react-router-dom";
 import Router from "./Components/Router";
+import { Provider } from 'react-redux';
+import {store} from "./Redux/Store/configureStore";
 
 function App() {
   return (
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
+      <Provider store={store}>
+          <BrowserRouter>
+            <Router />
+          </BrowserRouter>
+      </Provider>
   );
 }
 
