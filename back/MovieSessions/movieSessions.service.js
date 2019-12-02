@@ -11,7 +11,6 @@ class ServiceMovieSession {
     async hangTimerForOneFilm(movieSession) {
         let currentTime = new Date();
         currentTime = currentTime.getTime();
-        console.log(movieSession.date - currentTime)
         setTimeout(() => {this.deleteMovieSession(movieSession._id); console.log(movieSession._id)}, movieSession.date - currentTime)
     }
 

@@ -4,7 +4,6 @@ const MovieSession = require('../MovieSessions/movieSessions.service');
 
 class ServiceFilm {
     constructor() {
-        console.log(new MovieSession)
         this.movieSession = new MovieSession();
         this.film = mongoose.model('Film');
         /*this.hangTimer();*/
@@ -22,7 +21,6 @@ class ServiceFilm {
     async hangTimerForOneFilm(film) {
         let currentTime = new Date();
         currentTime = currentTime.getTime();
-        console.log(film.date - currentTime)
         setTimeout(() => {this.deleteFilm(film._id); console.log(film._id)}, film.date - currentTime)
     }
 

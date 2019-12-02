@@ -1,14 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userRouter = require('./Users/user.router');
+const adminRouter = require('./Admin/admin.router');
 const filmRouter = require('./Films/film.router');
 const movieSessionRouter = require('./MovieSessions/movieSessions.router');
 require('./Users/user.model');
+require('./Admin/admin.model');
 require('./Films/film.model');
 require('./MovieSessions/movieSessions.model');
 const app = express();
 app.use(bodyParser.json());
 const server = app.listen(5000, () => console.log('Server started on port 5000'));
 userRouter(app);
+adminRouter(app);
 filmRouter(app);
 movieSessionRouter(app);
