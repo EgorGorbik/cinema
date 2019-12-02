@@ -7,7 +7,6 @@ class ServiceUser {
     async createUser(userArg) {
         let user = new this.user(userArg);
         user.save();
-        console.log(user)
         return user;
     }
 
@@ -39,7 +38,6 @@ class ServiceUser {
         try {
             return await this.user.findOneAndDelete({_id});
         } catch (e) {
-            console.log(e.message)
             return await e.message
         }
     }

@@ -5,7 +5,10 @@ class movieSessionController {
     constructor() {
         this.movieSession = new MovieSession();
         this.schemaMovieSession = joi.object().keys({
-            places: joi.array()
+            places: joi.array(),
+            date: joi.string(),
+            hall: joi.number(),
+            filmId: joi.string()
         });
     }
 

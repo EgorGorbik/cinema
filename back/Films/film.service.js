@@ -1,17 +1,33 @@
 var mongoose = require('../config/model');
 const MovieSession = require('../MovieSessions/movieSessions.service');
-let firstHall = require('../shared/hallsPlaces/1hall');
-let secondHall = require('../shared/hallsPlaces/2hall');
-let thirdHall = require('../shared/hallsPlaces/3hall');
+
 
 class ServiceFilm {
     constructor() {
+        console.log(new MovieSession)
         this.movieSession = new MovieSession();
         this.film = mongoose.model('Film');
+        /*this.hangTimer();*/
+    }
+
+    async hangTimer() {
+        let films = await this.film.find();
+        films.forEach(el => {
+            let currentTime = new Date();
+            currentTime = currentTime.getTime();
+            setTimeout(() => {this.deleteFilm(el._id); console.log(el._id)}, el.date - currentTime)
+        })
+    }
+
+    async hangTimerForOneFilm(film) {
+        let currentTime = new Date();
+        currentTime = currentTime.getTime();
+        console.log(film.date - currentTime)
+        setTimeout(() => {this.deleteFilm(film._id); console.log(film._id)}, film.date - currentTime)
     }
 
     async createFilm(userArg) {
-        let movieSession;
+        /*let movieSession;
         switch(userArg.hall) {
             case '1':
                 movieSession = await this.movieSession.createMovieSession({places: firstHall});
@@ -23,11 +39,11 @@ class ServiceFilm {
                 movieSession = await this.movieSession.createMovieSession({places: thirdHall});
                 break;
         }
-        userArg.movieSessionId = movieSession._id
+        userArg.movieSessionId = movieSession._id*/
 
-        console.log(movieSession)
         let film = new this.film(userArg);
         film.save();
+       /* this.hangTimerForOneFilm(film);*/
         return film;
     }
 
@@ -58,7 +74,8 @@ class ServiceFilm {
     async deleteFilm(_id) {
         try {
             let film = await this.film.findOneAndDelete({_id});
-            await this.movieSession.deleteMovieSession(film.movieSessionId);
+            await this.movieSession.deleteMovieSessionByFilmId(_id);
+            /*await this.movieSession.deleteMovieSession(film.movieSessionId);*/
             return film;
         } catch (e) {
             return await e.message
