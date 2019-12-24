@@ -1,11 +1,10 @@
 var mongoose = require('../config/model');
-const MovieSession = require('../MovieSessions/movieSessions.service');
 
 
 class ServiceFilm {
     constructor() {
-        this.movieSession = new MovieSession();
         this.film = mongoose.model('Film');
+        this.session = mongoose.model('Sessions');
         /*this.hangTimer();*/
     }
 
@@ -72,8 +71,7 @@ class ServiceFilm {
     async deleteFilm(_id) {
         try {
             let film = await this.film.findOneAndDelete({_id});
-            await this.movieSession.deleteMovieSessionByFilmId(_id);
-            /*await this.movieSession.deleteMovieSession(film.movieSessionId);*/
+            await this.session.deleteMany({filmId: _id});
             return film;
         } catch (e) {
             return await e.message

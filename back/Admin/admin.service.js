@@ -18,6 +18,14 @@ class ServiceAdmin {
             return e.message
         }
     }
+
+    async getAdminByUsername(username) {
+        try {
+            return await this.admin.findOne({username: username});
+        } catch (e) {
+            return e.message
+        }
+    }
 }
 
 module.exports = ServiceAdmin;

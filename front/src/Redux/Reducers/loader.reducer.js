@@ -1,8 +1,8 @@
 export default (state = false, action) => {
     switch (action.type) {
-        case 'CHANGE_ISADMIN_TO_TRUE':
+        case 'LOADER_TO_TRUE':
             return true;
-        case 'CHANGE_ISADMIN_TO_FALSE':
+        case 'LOADER_TO_FALSE':
             return false;
         default:
             return state;

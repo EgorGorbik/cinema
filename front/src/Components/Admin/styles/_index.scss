@@ -1,0 +1,44 @@
+.film {
+  width: 100%;
+  border-bottom: 2px solid #1FB095;
+  color: #9D1905;
+  display: flex;
+}
+
+.film:hover {
+  background-color: #CDFCF3;
+}
+
+.films {
+  border: 2px solid #1FB095;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.poster {
+  max-height: 400px;
+  height: 10%;
+}
+
+.content {
+  padding: 2% 3%;
+}
+
+.btn_change {
+  border: none;
+  background-color: #1FB095;
+  float: right;
+}
+
+.btn_change:hover,
+.btn_change:active,
+.btn_change:focus,{
+  background-color: #09C4A1;
+}
+
+.header_content {
+  display: flex;
+}
+
+.description {
+}
