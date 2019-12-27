@@ -13,7 +13,7 @@ class Router extends Component {
                 <Route exact path="/">
                     <div>sdf</div>
                 </Route>
-                <Route exact path='/admin/profile'>
+                <Route exact path='/admin'>
                     <Profile/>
                 </Route>
                 <Route exact path="/admin/login">

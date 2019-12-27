@@ -1,19 +1,49 @@
 import React from 'react';
 import '../../../styles/_index.scss';
 import Button from "react-bootstrap/Button";
+import {withRouter} from "react-router";
+import {connect} from "react-redux";
 
 function Film(props) {
     return(
         <div className='film'>
             <img className='poster' src='../../../../../img/interstellar.jpg'/>
             <div className='content'>
-                <h2>Интерстеллар</h2>
-                <div>Длительность: 2:40</div>
-                <p className='description'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, aliquam aperiam architecto corporis delectus error ex iusto maxime, minima nisi quam quia quibusdam quidem quisquam repudiandae saepe unde! A accusamus animi aspernatur corporis debitis dignissimos dolorem ducimus ea esse explicabo id inventore iusto maiores minima, nihil nulla optio quasi quidem quo recusandae reiciendis repellendus similique vel veniam voluptatem. Accusamus atque autem facere illum incidunt ipsum labore minima odio soluta totam!</p>
-                <Button className='btn_change'>Изменить</Button>
+                <div className='film_header_content'>
+                    <h2>{props.info.name}</h2>
+                    <div className='film_btn'>
+                        <Button className='btn_change' onClick={() => props.editFilm(props.info)}>Изменить</Button>
+                        <Button className='btn_delete' onClick={() => deleteFilm(props.info._id)}>Удалить</Button>
+                    </div>
+                </div>
+                <div>Длительность: {props.info.duration}</div>
+                <p className='description'>{props.info.description}</p>
             </div>
         </div>
     )
+
+    function deleteFilm(id) {
+        props.deleteFilm(id)
+    }
+
+
 }
 
-export default Film;
+const mapStateToProps = (state) => ({
+    admin: state.admin,
+    loader: state.loader,
+    films: state.films
+});
+
+const mapDispatchToProps = (dispatch) =>  ({
+    getFilms: () => {dispatch({type: 'GET_FILM'})},
+    deleteFilm: (id) => {dispatch({type: 'DELETE_FILM', id: id})},
+    loginAdmin: (admin) => {dispatch({type: "LOGIN_ADMIN", admin: admin})},
+    logoutAdmin: () => {dispatch({type: "LOGOUT_ADMIN"})},
+    checkIsAdmin: (admin) => {dispatch({type: "CHECK_IS_ADMIN", admin: admin})}
+});
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Film));

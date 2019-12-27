@@ -12,7 +12,7 @@ function AdminLogIn(props) {
     const password = useRef();
 
     if(props.admin.isAdminLogged) {
-       return(<Redirect to='/admin/profile'/>)
+       return(<Redirect to='/admin'/>)
     }
 
     return(

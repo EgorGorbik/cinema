@@ -3,6 +3,17 @@
   border-bottom: 2px solid #1FB095;
   color: #9D1905;
   display: flex;
+  position: relative;
+}
+
+.film_content {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.film_btn {
+  position: absolute;
+  right: 10px;
 }
 
 .film:hover {
@@ -10,9 +21,8 @@
 }
 
 .films {
+  margin-top: 15px;
   border: 2px solid #1FB095;
-  width: 70%;
-  margin: 0 auto;
 }
 
 .poster {
@@ -25,14 +35,22 @@
 }
 
 .btn_change {
-  border: none;
+
+  border:none;
+  outline: none;
   background-color: #1FB095;
-  float: right;
 }
 
-.btn_change:hover,
-.btn_change:active,
-.btn_change:focus,{
+.btn_delete:hover {
+  background-color: #F50E0E;
+}
+
+.btn_delete {
+  border: none;
+  background-color: #D52727;
+}
+
+.btn_change:hover {
   background-color: #09C4A1;
 }
 
@@ -41,4 +59,9 @@
 }
 
 .description {
+}
+
+.film_header_content {
+  display: flex;
+  justify-content: space-between;
 }

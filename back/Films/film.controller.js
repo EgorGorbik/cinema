@@ -6,7 +6,8 @@ class filmController {
         this.film = new Film();
         this.schemaFilm = joi.object().keys({
             name: joi.string().required(),
-            duration: joi.string()
+            duration: joi.string(),
+            description: joi.string(),
         });
     }
 

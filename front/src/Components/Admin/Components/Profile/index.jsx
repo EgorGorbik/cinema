@@ -9,6 +9,12 @@ function Profile(props) {
     const [isLoading, changeLoading] = useState(false);
     const [mustRedirect, changeRedirectFlag] = useState(false);
 
+    console.log(props.films)
+
+    useEffect(() => {
+       props.getFilms()
+    }, [])
+
     useEffect(() => {
         if(props.admin.accessDenied) {
             changeRedirectFlag(true)
@@ -45,10 +51,12 @@ function Profile(props) {
 
 const mapStateToProps = (state) => ({
     admin: state.admin,
-    loader: state.loader
+    loader: state.loader,
+    films: state.films
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
+    getFilms: () => {dispatch({type: 'GET_FILM'})},
     loginAdmin: (admin) => {dispatch({type: "LOGIN_ADMIN", admin: admin})},
     logoutAdmin: () => {dispatch({type: "LOGOUT_ADMIN"})},
     checkIsAdmin: (admin) => {dispatch({type: "CHECK_IS_ADMIN", admin: admin})}
