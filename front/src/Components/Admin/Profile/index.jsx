@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
-import Header from "../../../shared/Header";
+import Header from "../../shared/Header";
 import {withRouter} from "react-router";
-import Films from "./Components/Films";
+import Films from "./Films";
 
 function Profile(props) {
     const [isLoading, changeLoading] = useState(false);

@@ -3,7 +3,7 @@ import {call, put} from "redux-saga/effects";
 import {loaderToFalse, loaderToTrue} from "../ActionCreators/loader.action";
 import {loginAdminError, loginAdminSuccess} from "../ActionCreators/admin.action";
 import * as films from '../Service/film.service';
-import {getFilmsSuccess, deleteFilmSuccess, createFilmSuccess} from "../ActionCreators/films.action";
+import {getFilmsSuccess, deleteFilmSuccess, createFilmSuccess, editFilmSuccess} from "../ActionCreators/films.action";
 
 function* getFilms(action) {
     try {
@@ -37,7 +37,7 @@ function* editFilm(action) {
     try {
         let {data}= yield call(films.editFilm, action.film);
         console.log(data)
-        //yield put(createFilmSuccess(data))
+        yield put(editFilmSuccess(data))
     } catch (error) {
 
     }

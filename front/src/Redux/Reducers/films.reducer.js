@@ -6,7 +6,14 @@ export default (state = [], action) => {
             console.log(action.film)
             return [action.film, ...state]
         case 'EDIT_FILM_SUCCESS':
-            return state.filter()
+            return state.map(el => {
+                if(el._id === action.film._id) {
+                    el = action.film;
+                    return el;
+                } else {
+                    return el;
+                }
+            })
             return [action.film, ...state]
         case 'DEL_FILM_SUCCESS':
             return state.filter((el) => el._id != action.id);

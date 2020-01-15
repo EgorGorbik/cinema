@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import axios from "axios";
 
 export function FilmForm(props) {
     const [isEmptyField, changeFieldFlag] = useState(false);
@@ -21,6 +22,45 @@ export function FilmForm(props) {
         }
     })
 
+
+    function handleImg(e) {
+        var formData = new FormData();
+        console.log(e.target.files[0])
+        formData.append('file', e.target.files[0])
+
+        axios.post("http://localhost:5000/film/img", formData, { // receive two parameter endpoint url ,form data
+        })
+            .then(res => { // then print response status
+                console.log(res)
+                const base64 = btoa(
+                    new Uint8Array(res.data).reduce(
+                        (data, byte) => data + String.fromCharCode(byte),
+                        '',
+                    ),
+                );
+               console.log(base64)
+            })
+
+        /*axios.request({
+            method: 'post',
+            url: `http://localhost:5000/film/img`,
+            data: e.target.files[0]
+        });*/
+        /*let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            console.log(reader.result);
+            console.log(file);
+            axios.request({
+                method: 'post',
+                url: `http://localhost:5000/film/img`,
+                data: {"d": reader.result}
+            });
+        }
+        reader.readAsDataURL(file)*/
+
+
+    }
 
     return(
         <Form className='create_film_form'>
@@ -43,6 +83,8 @@ export function FilmForm(props) {
                 <Form.Label>Описание</Form.Label>
                 <Form.Control as="textarea" rows="3" placeholder="Enter description" ref={description}/>
             </Form.Group>
+            <Form.Label>Загрузить постер</Form.Label>
+            <input onChange={e => handleImg(e)} type="file"  name="file" name="f"/>
             <Button className='admin_login_button'  variant="primary" onClick={() => {saveFilm()}}>
                 Сохранить
             </Button>
@@ -68,6 +110,7 @@ export function FilmForm(props) {
                 description: description.current.value,
             })
         }
+        props.changeFormFlag(false)
         film.current.value = '';
         duration.current.value = '';
         description.current.value = '';

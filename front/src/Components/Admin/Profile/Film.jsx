@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../styles/_index.scss';
+import '../styles/_index.scss';
 import Button from "react-bootstrap/Button";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";

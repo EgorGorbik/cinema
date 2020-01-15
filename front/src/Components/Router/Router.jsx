@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect, Route, Switch, withRouter} from "react-router";
 import {connect} from "react-redux";
-import AdminLogIn from "../Admin/Components/LogIn";
-import Profile from "../Admin/Components/Profile";
+import AdminLogIn from "../Admin/LogIn";
+import Profile from "../Admin/Profile";
 
 
 class Router extends Component {

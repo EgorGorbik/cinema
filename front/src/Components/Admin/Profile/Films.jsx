@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Film from "./Film";
-import '../../../styles/_index.scss';
+import '../styles/_index.scss';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Button from "react-bootstrap/Button";
@@ -15,7 +15,7 @@ function Films(props) {
         <div className='film_content'>
             <Button onClick={() => createFilm()}>{isFormOpen? 'Отмена': 'Создать'}</Button>
             {isFormOpen &&
-                <FilmForm initial={formInitialValue}/>
+                <FilmForm changeFormFlag={changeFormFlag} initial={formInitialValue}/>
             }
             <div className='films'>
                 {props.films.map((el) => <Film key={el._id} info={el} editFilm={editFilm}/>
