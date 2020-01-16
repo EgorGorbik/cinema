@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 function Film(props) {
     return(
         <div className='film'>
-            <img className='poster' src='../../../../../img/interstellar.jpg'/>
+            <img className='poster' src={`http://localhost:5000/${props.info._id}.jpg`}/>
             <div className='content'>
                 <div className='film_header_content'>
                     <h2>{props.info.name}</h2>

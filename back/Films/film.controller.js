@@ -1,5 +1,7 @@
 const joi = require('joi');
 const Film = require('./film.service');
+const multer = require('multer');
+
 
 class filmController {
     constructor() {
@@ -9,18 +11,32 @@ class filmController {
             duration: joi.string(),
             description: joi.string(),
         });
+        this.storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                cb(null, 'public')
+            },
+            filename: function (req, file, cb) {
+                console.log(req.params)
+                console.log(file)
+                cb(null, req.params.name + '.jpg' )
+            }
+        })
+        this.upload = multer({ storage: this.storage }).single('file')
     }
 
     async createFilm(req, res) {
-        joi.validate(req.body, this.schemaFilm, async (err, result) => {
+        let film = await this.film.createFilm(req.body);
+        res.send(film);
+    }
+    async createPoster(req, res) {
+        this.upload(req, res, function (err) {
             if (err) {
-                res.send(err.message)
-            } else {
-                let film = await this.film.createFilm(req.body);
-                res.send(film);
+                return res.status(500).json(err)
             }
+            return res.status(200).send(req.file)
         })
     }
+
 
     async getFilms(req, res) {
         let films = await this.film.getFilms();

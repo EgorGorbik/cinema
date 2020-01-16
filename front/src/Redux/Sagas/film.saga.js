@@ -27,16 +27,20 @@ function* deleteFilm(action) {
 function* addFilm(action) {
     try {
         let {data}= yield call(films.addFilm, action.film);
+        let f = yield call(films.addPoster, action.file, data._id);
+        console.log(f.data.filename)
+        console.log(data)
         yield put(createFilmSuccess(data))
     } catch (error) {
-
+        console.log(error)
     }
 }
 
 function* editFilm(action) {
     try {
         let {data}= yield call(films.editFilm, action.film);
-        console.log(data)
+        let f = yield call(films.addPoster, action.file, data._id);
+        console.log(action.film)
         yield put(editFilmSuccess(data))
     } catch (error) {
 

@@ -15,11 +15,22 @@ export function delFilm(id) {
 }
 
 export function addFilm(data) {
-    console.log(data)
     return axios.request({
         method: 'post',
         url: `http://localhost:5000/film`,
         data: data
+    });
+}
+
+export function addPoster(file, name) {
+    console.log(name)
+    var formData = new FormData();
+    formData.append('file', file)
+    console.log(formData)
+    return axios.request({
+        method: 'post',
+        url: `http://localhost:5000/film/img/${name}`,
+        data: formData
     });
 }
 

@@ -8,58 +8,24 @@ import axios from "axios";
 
 export function FilmForm(props) {
     const [isEmptyField, changeFieldFlag] = useState(false);
+    const [file, changeFile] = useState();
+    const [film, changeFilm] = useState();
+    const [duration, changeDuration] = useState();
+    const [description, changeDescription] = useState();
 
-    let film = useRef();
-    let duration = useRef();
-    let description = useRef();
 
 
     useEffect(() => {
         if(props.initial) {
-            film.current.value = props.initial.name;
-            duration.current.value = props.initial.duration;
-            description.current.value = props.initial.description;
+            changeFilm(props.initial.name);
+            changeDuration(props.initial.duration);
+            changeDescription(props.initial.description);
         }
-    })
+    }, [])
 
 
     function handleImg(e) {
-        var formData = new FormData();
-        console.log(e.target.files[0])
-        formData.append('file', e.target.files[0])
-
-        axios.post("http://localhost:5000/film/img", formData, { // receive two parameter endpoint url ,form data
-        })
-            .then(res => { // then print response status
-                console.log(res)
-                const base64 = btoa(
-                    new Uint8Array(res.data).reduce(
-                        (data, byte) => data + String.fromCharCode(byte),
-                        '',
-                    ),
-                );
-               console.log(base64)
-            })
-
-        /*axios.request({
-            method: 'post',
-            url: `http://localhost:5000/film/img`,
-            data: e.target.files[0]
-        });*/
-        /*let reader = new FileReader();
-        let file = e.target.files[0];
-        reader.onloadend = () => {
-            console.log(reader.result);
-            console.log(file);
-            axios.request({
-                method: 'post',
-                url: `http://localhost:5000/film/img`,
-                data: {"d": reader.result}
-            });
-        }
-        reader.readAsDataURL(file)*/
-
-
+        changeFile(e.target.files[0]);
     }
 
     return(
@@ -71,17 +37,17 @@ export function FilmForm(props) {
             </Alert>}
             <Form.Group>
                 <Form.Label>Фильм</Form.Label>
-                <Form.Control type="text" placeholder="Enter film" ref={film}/>
+                <Form.Control placeholder="Enter film" value={film} onChange={(e) => {console.log(e.target.value); changeFilm(e.target.value)}}/>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Длительность</Form.Label>
-                <Form.Control type="time" placeholder="Enter duration" ref={duration}/>
+                <Form.Control type='time' placeholder="Enter duration" value={duration} onChange={(e) => changeDuration(e.target.value)}/>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Описание</Form.Label>
-                <Form.Control as="textarea" rows="3" placeholder="Enter description" ref={description}/>
+                <Form.Control as="textarea" rows="3" placeholder="Enter description" value={description} onChange={(e) => changeDescription(e.target.value)}/>
             </Form.Group>
             <Form.Label>Загрузить постер</Form.Label>
             <input onChange={e => handleImg(e)} type="file"  name="file" name="f"/>
@@ -92,29 +58,35 @@ export function FilmForm(props) {
     )
 
     function saveFilm() {
-        if((film.current.value.trim() === '') ||
-            (duration.current.value.trim() === '') ||
-            (description.current.value.trim() === '')) {
+        if((film.trim() === '') ||
+            (duration.trim() === '') ||
+            (description.trim() === '') ||
+            (!file)) {
                 changeFieldFlag(true)
         } else if(props.initial) {
             props.editFilm({
                 id:  props.initial._id,
-                name: film.current.value,
-                duration: duration.current.value,
-                description: description.current.value
+                name: film,
+                duration: duration,
+                description: description
             })
+            props.changeFormFlag(false)
+            changeFilm('');
+            changeDuration('');
+            changeDescription('');
+            changeFieldFlag(false)
         } else {
             props.addFilm({
-                name: film.current.value,
-                duration: duration.current.value,
-                description: description.current.value,
-            })
+                name: film,
+                duration: duration,
+                description: description,
+            }, file)
+            props.changeFormFlag(false)
+            changeFilm('');
+            changeDuration('');
+            changeDescription('');
+            changeFieldFlag(false)
         }
-        props.changeFormFlag(false)
-        film.current.value = '';
-        duration.current.value = '';
-        description.current.value = '';
-        changeFieldFlag(false)
     }
 }
 
@@ -126,8 +98,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) =>  ({
     getFilms: () => {dispatch({type: 'GET_FILM'})},
-    addFilm: (data) => {dispatch({type: 'ADD_FILM', film: data})},
-    editFilm: (film) => {dispatch({type: 'EDIT_FILM', film: film})},
+    addFilm: (data, file) => {dispatch({type: 'ADD_FILM', film: data, file: file})},
+    editFilm: (film, file) => {dispatch({type: 'EDIT_FILM', film: film, file: file})},
     deleteFilm: (id) => {dispatch({type: 'DELETE_FILM', id: id})},
     loginAdmin: (admin) => {dispatch({type: "LOGIN_ADMIN", admin: admin})},
     logoutAdmin: () => {dispatch({type: "LOGOUT_ADMIN"})},

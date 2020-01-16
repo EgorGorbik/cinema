@@ -10,7 +10,8 @@ require('./Admin/admin.model');
 require('./Films/film.model');
 require('./Sessions/session.model');
 const app = express();
-app.use(cors())
+app.use(cors());
+app.use(express.static('public'));
 app.use(bodyParser.json());
 const server = app.listen(5000, () => console.log('Server started on port 5000'));
 userRouter(app);
