@@ -53,8 +53,11 @@ class ServiceFilm {
     }
 
     async getFilm(_id) {
+        console.log('id ' + _id)
         try {
-            return await this.film.find({_id});
+            let k = await this.film.find({_id});
+            console.log(k)
+            return k
         } catch (e) {
             return e.message
         }

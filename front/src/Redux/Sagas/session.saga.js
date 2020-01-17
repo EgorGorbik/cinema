@@ -3,12 +3,16 @@ import {call, put} from "redux-saga/effects";
 import {loaderToFalse, loaderToTrue} from "../ActionCreators/loader.action";
 import {loginAdminError, loginAdminSuccess} from "../ActionCreators/admin.action";
 import * as films from '../Service/film.service';
+import * as sessions from '../Service/session.service';
 import {getFilmsSuccess, deleteFilmSuccess, createFilmSuccess, editFilmSuccess} from "../ActionCreators/films.action";
+import {setSessionsSuccess} from "../ActionCreators/sessions";
 
-function* getFilms(action) {
+function* getSessions(action) {
+    console.log('inside saga')
     try {
-        let { data } = yield call(films.getFilms);
-        yield put(getFilmsSuccess(data));
+        let { data } = yield call(sessions.getSessions, action.date);
+        console.log(data)
+        yield put(setSessionsSuccess(data.sessions));
     } catch (error) {
 
     }
@@ -47,9 +51,6 @@ function* editFilm(action) {
     }
 }
 
-export default function* watchFilms() {
-    yield takeEvery("GET_FILM", getFilms);
-    yield takeEvery("DELETE_FILM", deleteFilm);
-    yield takeEvery("ADD_FILM", addFilm);
-    yield takeEvery("EDIT_FILM", editFilm);
+export default function* watchSagas() {
+    yield takeEvery("GET_SESSIONS", getSessions);
 }

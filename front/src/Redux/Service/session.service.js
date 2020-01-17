@@ -1,9 +1,11 @@
 import axios from "axios";
 
-export function getFilms() {
+export function getSessions(date) {
+    console.log(date)
     return axios.request({
         method: 'get',
-        url: 'http://localhost:5000/films'
+        data: {date: date},
+        url: `http://localhost:5000/session/date/${date}`
     });
 }
 

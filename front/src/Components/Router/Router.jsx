@@ -3,6 +3,8 @@ import {Redirect, Route, Switch, withRouter} from "react-router";
 import {connect} from "react-redux";
 import AdminLogIn from "../Admin/LogIn";
 import Profile from "../Admin/Profile";
+import AdminFilms from "../Admin/Films";
+import AdminSessions from "../Admin/Sessions";
 
 
 class Router extends Component {
@@ -15,6 +17,12 @@ class Router extends Component {
                 </Route>
                 <Route exact path='/admin'>
                     <Profile/>
+                </Route>
+                <Route exact path='/admin/films'>
+                    <AdminFilms/>
+                </Route>
+                <Route exact path='/admin/sessions'>
+                    <AdminSessions/>
                 </Route>
                 <Route exact path="/admin/login">
                     <AdminLogIn/>

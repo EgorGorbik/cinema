@@ -7,6 +7,6 @@ function router(app) {
     app.post('/film/', (req, res) => controller.createFilm(req, res));
     app.put('/film/:id', (req, res) => controller.updateFilm(req, res));
     app.delete('/film/:id', (req, res) => controller.deleteFilm(req, res));
-    app.post('/film/img/:name', (req, res) => controller.createPoster(req, res))
+    app.post('/film/img', (req, res) => controller.createPoster(req, res))
 }
 module.exports = router;

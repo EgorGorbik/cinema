@@ -3,7 +3,6 @@ export default (state = [], action) => {
         case 'SET_FILMS':
             return action.films
         case 'SET_FILM_SUCCESS':
-            console.log(action.film)
             return [action.film, ...state]
         case 'EDIT_FILM_SUCCESS':
             return state.map(el => {

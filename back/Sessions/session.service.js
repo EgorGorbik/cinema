@@ -2,11 +2,12 @@ var mongoose = require('../config/model');
 let firstHall = require('../shared/hallsPlaces/1hall');
 let secondHall = require('../shared/hallsPlaces/2hall');
 let thirdHall = require('../shared/hallsPlaces/3hall');
+const Film = require('../Films/film.service');
 
 class ServiceSession {
     constructor() {
         this.session = mongoose.model('Sessions');
-        this.film = mongoose.model('Film');
+        this.film = new Film();
     }
 
     async hangTimerForOneFilm(session) {
@@ -50,6 +51,24 @@ class ServiceSession {
     async getSession(_id) {
         try {
             return await this.session.find({_id});
+        } catch (e) {
+            return e.message
+        }
+    }
+
+    async getSessionByDate(date) {
+        try {
+            let sessions = await this.session.find({date: date});
+
+            let films = [];
+            sessions.forEach(el => {if(!films.includes(el.filmId)){
+                films.push(el.filmId)
+            }})
+            let f = await films.map(async el => await this.film.getFilm(el))
+            console.log(f)
+
+
+            return {sessions: sessions, films: f}
         } catch (e) {
             return e.message
         }

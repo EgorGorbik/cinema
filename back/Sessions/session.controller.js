@@ -1,6 +1,7 @@
 const joi = require('joi');
 const Session = require('./session.service');
 
+
 class sessionController {
     constructor() {
         this.session = new Session();
@@ -8,7 +9,8 @@ class sessionController {
             places: joi.array(),
             date: joi.string(),
             hall: joi.number(),
-            filmId: joi.string()
+            filmId: joi.string(),
+            time: joi.string()
         });
     }
 
@@ -31,6 +33,13 @@ class sessionController {
     async getSession(req, res) {
         let session = await this.session.getSession(req.params.id);
         res.send(session)
+    }
+
+    async getSessionByDate(req, res) {
+        let sessions = await this.session.getSessionByDate(req.params.date);
+        console.log('======')
+        console.log(sessions)
+        res.send(sessions)
     }
 
     async updateSession(req, res) {

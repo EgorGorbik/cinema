@@ -5,10 +5,44 @@ import Header from "../../shared/Header";
 import {withRouter} from "react-router";
 import Films from "./Films";
 
-function Profile(props) {
+function AdminFilms(props) {
+    const [isLoading, changeLoading] = useState(false);
+    const [mustRedirect, changeRedirectFlag] = useState(false);
+
+    useEffect(() => {
+       props.getFilms()
+    }, [])
+
+    useEffect(() => {
+        if(props.admin.accessDenied) {
+            changeRedirectFlag(true)
+        }
+    }, [props.admin])
+
+    useEffect(() => {
+        if(props.loader) {
+            changeLoading(true);
+        } else {
+            changeLoading(false);
+        }
+    }, [props.loader])
+
+    useEffect(() => {
+        props.checkIsAdmin({a: 1});
+    }, [props.checkIsAdmin]);
+
+    if(mustRedirect) {
+        return(<Redirect to='/admin/login'/>)
+    }
+
+    if(isLoading){
+        return <div>Loading...</div>
+    }
+
     return(
         <div>
             <Header/>
+            <Films/>
         </div>
     )
 }
@@ -29,4 +63,4 @@ const mapDispatchToProps = (dispatch) =>  ({
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(Profile));
+)(AdminFilms));

@@ -28,10 +28,10 @@ function Header(props) {
     return(
         <>
             <Navbar className='navbar'>
-                <Navbar.Brand >Admin</Navbar.Brand>
+                <Navbar.Brand href="/admin">Admin</Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link>Статистика</Nav.Link>
-                    <Nav.Link>Деньги</Nav.Link>
+                    <Nav.Link href="/admin/films">Фильмы</Nav.Link>
+                    <Nav.Link href="/admin/sessions">Сеансы</Nav.Link>
                 </Nav>
                 <Form inline>
                     <Button onClick={() => {logout()}} className='btn_logout'>Log Out</Button>
