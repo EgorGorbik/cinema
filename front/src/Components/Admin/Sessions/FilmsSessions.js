@@ -8,7 +8,7 @@ function FilmsSessions(props) {
 
     const date = React.createRef();
 
-    console.log(props.sessions)
+    console.log(props.films)
 
     function h() {
         console.log(date.current.value)
@@ -20,17 +20,15 @@ function FilmsSessions(props) {
             <input ref={date} type='date' onChange={(e) => {console.log(e.target.value)}}/>
             <button onClick={() => h()}>Найти</button>
             <div className='films'>
-                {props.sessions.map((e) => <Film />)}
-                <Film/>
-                <Film/>
-                <Film/>
+                {props.films.map((e) => <Film id={e._id} name={e.name} src={e.src} />)}
             </div>
         </div>
     )
 }
 
 const mapStateToProps = (state) => ({
-    sessions: state.sessions
+    sessions: state.sessions,
+    films: state.films
 });
 
 const mapDispatchToProps = (dispatch) =>  ({

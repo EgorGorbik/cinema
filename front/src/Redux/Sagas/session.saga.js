@@ -13,6 +13,7 @@ function* getSessions(action) {
         let { data } = yield call(sessions.getSessions, action.date);
         console.log(data)
         yield put(setSessionsSuccess(data.sessions));
+        yield put(getFilmsSuccess(data.films));
     } catch (error) {
 
     }

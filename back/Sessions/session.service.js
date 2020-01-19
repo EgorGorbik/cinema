@@ -30,7 +30,7 @@ class ServiceSession {
         }
         let session = new this.session(userArg);
         try {
-            await this.film.find({_id: session.filmId})
+            await this.film.getFilm(session.filmId)
         } catch (e) {
             return e.message
         }
@@ -64,10 +64,14 @@ class ServiceSession {
             sessions.forEach(el => {if(!films.includes(el.filmId)){
                 films.push(el.filmId)
             }})
-            let f = await films.map(async el => await this.film.getFilm(el))
-            console.log(f)
+            //let f = await films.map(async el => await this.film.getFilm(el))
+            let f = [];
 
-
+            let temp = await this.film.getFilm(films[0])
+            for(let i = 0; i < films.length; i++) {
+                let temp = await this.film.getFilm(films[i]);
+                f.push(temp[0]);
+            }
             return {sessions: sessions, films: f}
         } catch (e) {
             return e.message
