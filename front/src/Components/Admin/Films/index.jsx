@@ -4,13 +4,15 @@ import {Redirect} from "react-router";
 import Header from "../../shared/Header";
 import {withRouter} from "react-router";
 import Films from "./Films";
+import Loader from "../../shared/Loader";
 
 function AdminFilms(props) {
+    console.log(props.films)
     const [isLoading, changeLoading] = useState(false);
     const [mustRedirect, changeRedirectFlag] = useState(false);
 
     useEffect(() => {
-       props.getFilms()
+        props.getFilms()
     }, [])
 
     useEffect(() => {
@@ -27,17 +29,25 @@ function AdminFilms(props) {
         }
     }, [props.loader])
 
-    useEffect(() => {
-        props.checkIsAdmin({a: 1});
-    }, [props.checkIsAdmin]);
 
     if(mustRedirect) {
         return(<Redirect to='/admin/login'/>)
     }
 
-    if(isLoading){
-        return <div>Loading...</div>
+    console.log('--------------')
+    console.log(props.loader)
+    console.log(props.admin.isAdminLogged)
+    console.log(props.admin.isAdminLogged)
+
+    if(props.loader || props.admin.isAdminLogged === undefined) {
+        console.log('loading...')
+        return <Loader/>
+    } else {
+        if(!props.admin.isAdminLogged) {
+            return (<Redirect to='/admin/login'/>)
+        }
     }
+
 
     return(
         <div>

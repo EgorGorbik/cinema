@@ -5,6 +5,7 @@ import AdminLogIn from "../Admin/LogIn";
 import Profile from "../Admin/Profile";
 import AdminFilms from "../Admin/Films";
 import AdminSessions from "../Admin/Sessions";
+import SessionInfo from "../Admin/Sessions/SessionInfo";
 
 
 class Router extends Component {
@@ -23,6 +24,9 @@ class Router extends Component {
                 </Route>
                 <Route exact path='/admin/sessions'>
                     <AdminSessions/>
+                </Route>
+                <Route exact path='/admin/session/:id'>
+                    <SessionInfo/>
                 </Route>
                 <Route exact path="/admin/login">
                     <AdminLogIn/>

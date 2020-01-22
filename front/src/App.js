@@ -5,13 +5,14 @@ import { Provider } from 'react-redux';
 import Router from "./Components/Router/Router";
 import {BrowserRouter} from "react-router-dom";
 import {createBrowserHistory} from 'history';
+import Initialization from "./Components/Initialization";
 const browserHistory = createBrowserHistory();
 
 function App() {
   return (
       <Provider store={store}>
           <BrowserRouter history={browserHistory}>
-            <Router/>
+              <Initialization/>
           </BrowserRouter>
       </Provider>
   );

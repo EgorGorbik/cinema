@@ -7,9 +7,9 @@ function Session(props) {
 
 
     return (
-        <div className='session_item'>
+        <div className='session_item' onClick={() => props.history.push(`/admin/session/${props.id}`)}>
             <div>{props.time}</div>
-            <div>{props.hall}</div>
+            <div>Зал {props.hall}</div>
         </div>
     )
 }

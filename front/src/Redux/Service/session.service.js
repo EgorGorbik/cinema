@@ -9,6 +9,14 @@ export function getSessions(date) {
     });
 }
 
+export function getSession(id) {
+    console.log(id)
+    return axios.request({
+        method: 'get',
+        url: `http://localhost:5000/session/${id}`
+    });
+}
+
 export function delFilm(id) {
     return axios.request({
         method: 'delete',
@@ -16,10 +24,10 @@ export function delFilm(id) {
     });
 }
 
-export function addFilm(data) {
+export function addSession(data) {
     return axios.request({
         method: 'post',
-        url: `http://localhost:5000/film`,
+        url: `http://localhost:5000/session`,
         data: data
     });
 }

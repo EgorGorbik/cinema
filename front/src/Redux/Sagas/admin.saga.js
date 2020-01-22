@@ -27,6 +27,7 @@ function* isAdminCheck() {
         yield put(loginAdminSuccess(data.data.admin));
         yield put(loaderToFalse());
     } catch (error) {
+        yield put(loaderToTrue());
         yield put(accessDenied());
         yield put(loaderToFalse());
     }
@@ -36,6 +37,7 @@ function* logoutAdmin() {
     const data = yield axios({method: 'POST', url: 'http://localhost:5000/admin/logout', headers: {Authorization: 'Bearer ' + localStorage.getItem('admin_access_token')} } );
     localStorage.removeItem('admin_access_token');
     yield put(logoutAdminSuccess());
+    yield put(loaderToFalse());
 }
 
 export default function* watchLogin() {

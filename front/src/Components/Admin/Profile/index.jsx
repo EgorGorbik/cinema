@@ -4,8 +4,18 @@ import {Redirect} from "react-router";
 import Header from "../../shared/Header";
 import {withRouter} from "react-router";
 import Films from "./Films";
+import Loader from "../../shared/Loader";
 
 function Profile(props) {
+
+    if(props.loader || props.admin.isAdminLogged === undefined) {
+        return <Loader/>
+    } else {
+        if(!props.admin.isAdminLogged) {
+            return (<Redirect to='/admin/login'/>)
+        }
+    }
+
     return(
         <div>
             <Header/>

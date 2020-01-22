@@ -88,3 +88,82 @@
 .session_content {
   width: 100%;
 }
+
+.date {
+  font-weight: 800;
+  text-align: center;
+  font-size: 35px;
+  color: #9D1905;
+}
+
+.session_header {
+  width: 55%;
+  height: 300px;
+  margin: 0 auto;
+  display: flex;
+  padding: 0 70px;
+  justify-content: space-between;
+}
+
+.session_info {
+  font-size: 40px;
+}
+
+.session_statistics {
+  font-size: 40px;
+}
+
+.hall {
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  width: 50%;
+  border: 1px solid black;
+  background-color: #FDEAA8;
+}
+
+.places {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 92%;
+}
+
+.place {
+  margin: 1%;
+  width: 6%;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.free_place {
+  background-color: white;
+  color: #808080;
+}
+
+.taken_place {
+  background-color: grey;
+  color: white;
+}
+
+.rows {
+  margin: 1% 0;
+  width: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: grey;
+  font-size: 15px;
+}
+

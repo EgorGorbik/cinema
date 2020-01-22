@@ -28,10 +28,10 @@ function Header(props) {
     return(
         <>
             <Navbar className='navbar'>
-                <Navbar.Brand href="/admin">Admin</Navbar.Brand>
+                <Navbar.Brand onClick={() => props.history.push("/admin")}>Admin</Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link href="/admin/films">Фильмы</Nav.Link>
-                    <Nav.Link href="/admin/sessions">Сеансы</Nav.Link>
+                    <Nav.Link onClick={() => props.history.push("/admin/films")}>Фильмы</Nav.Link>
+                    <Nav.Link onClick={() => props.history.push("/admin/sessions")}>Сеансы</Nav.Link>
                 </Nav>
                 <Form inline>
                     <Button onClick={() => {logout()}} className='btn_logout'>Log Out</Button>

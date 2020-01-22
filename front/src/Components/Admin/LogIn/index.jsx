@@ -5,11 +5,17 @@ import Form from "react-bootstrap/Form";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
 import Alert from "react-bootstrap/Alert";
+import Loader from "../../shared/Loader";
 
 
 function AdminLogIn(props) {
     let username = useRef();
     const password = useRef();
+
+    console.log(props.admin.isAdminLogged)
+    if(props.loader || props.admin.isAdminLogged === undefined) { // непонятно почему сначала отображается этот компонент и только потом в саге put loader на true, поэтому такой костыль
+        return <Loader/>
+    }
 
     if(props.admin.isAdminLogged) {
        return(<Redirect to='/admin'/>)
@@ -53,7 +59,8 @@ function AdminLogIn(props) {
 
 
 const mapStateToProps = (state) => ({
-    admin: state.admin
+    admin: state.admin,
+    loader: state.loader
 });
 
 const mapDispatchToProps = (dispatch) =>  ({

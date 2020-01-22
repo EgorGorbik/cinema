@@ -10,9 +10,9 @@ export default (state = {}, action) => {
             newState.loginError = true;
             return newState;
         case 'LOGOUT_ADMIN_SUCCESS':
-            return {logout: true};
+            newState.isAdminLogged = false;
         case 'ACCESS_DENIED':
-            newState.accessDenied = true;
+            newState.isAdminLogged = false;
             return newState;
         default:
             return state;

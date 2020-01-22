@@ -10,7 +10,7 @@ function* getFilms(action) {
         let { data } = yield call(films.getFilms);
         yield put(getFilmsSuccess(data));
     } catch (error) {
-
+        alert(error)
     }
 }
 
