@@ -15,6 +15,7 @@ function FilmsSessions(props) {
 
     useEffect(() => {
         date = convertDateToInputFormat();
+        console.log(date)
         props.getSessions(date);
         changeSelectedDate(convertDateToRussianFormat(new Date()))
     }, [])
@@ -22,19 +23,27 @@ function FilmsSessions(props) {
     let date = React.createRef();
 
     console.log(props.films)
+    console.log(props.sessions)
 
     function searchSessionForDay() {
-        console.log(date.current.value)
-        props.getSessions(date.current.value)
-        changeSelectedDate(convertDateToRussianFormat(date.current.value))
+        if(date.current.value) {
+            props.getSessions(date.current.value)
+            changeSelectedDate(convertDateToRussianFormat(date.current.value))
+        }
     }
 
     function convertDateToInputFormat() {
         let date = new Date();
         let y = date.getFullYear();
-        let m = date.getMonth();
+        let m = date.getMonth() + 1;
         let d = date.getDate();
-        return y + '-' + m + 1 + '-' + d;
+        if(m < 10) {
+            m = '0' + m;
+        }
+        if(d < 10) {
+            d = '0' + d;
+        }
+        return y + '-' + m + '-' + d;
     }
 
     function convertDateToRussianFormat(d) {
@@ -51,12 +60,12 @@ function FilmsSessions(props) {
     return (
         <div className='film_content'>
             <Button onClick={() => createSession()}>{isFormOpen? 'Отмена': 'Создать'}</Button>
-            <input ref={date} type='date' onChange={(e) => {console.log(e.target.value)}}/>
+            <input ref={date} type='date' />
             <button onClick={() => searchSessionForDay()}>Найти</button>
-            <div className='date'>{selectedDate}</div>
             {isFormOpen &&
                 <SessionForm changeFormFlag={changeFormFlag}/>
             }
+            <div className='date'>{selectedDate}</div>
             <div className='films'>
                 {props.films.map((e) => <Film id={e._id} name={e.name} src={e.src} />)}
             </div>
@@ -70,7 +79,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
+    getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
 });
 
 export default withRouter(connect(

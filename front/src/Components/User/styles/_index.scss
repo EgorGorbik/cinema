@@ -1,0 +1,19 @@
+.main_user_header {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.main {
+  min-height: 100vh;
+  background-color: #FDEAA8;
+}
+
+.posters {
+  display: flex;
+  width: 80%;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  margin-top: 50px;
+  justify-content: space-around;
+}

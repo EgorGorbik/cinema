@@ -6,6 +6,8 @@ import Profile from "../Admin/Profile";
 import AdminFilms from "../Admin/Films";
 import AdminSessions from "../Admin/Sessions";
 import SessionInfo from "../Admin/Sessions/SessionInfo";
+import Main from "../User/Main";
+import Film from "../User/Film";
 
 
 class Router extends Component {
@@ -14,7 +16,10 @@ class Router extends Component {
         return(
             <Switch>
                 <Route exact path="/">
-                    <div>sdf</div>
+                    <Main/>
+                </Route>
+                <Route exact path="/film/:id">
+                    <Film/>
                 </Route>
                 <Route exact path='/admin'>
                     <Profile/>

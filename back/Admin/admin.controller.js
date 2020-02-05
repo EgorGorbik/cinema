@@ -20,10 +20,8 @@ class adminController {
     }
 
     async createAdmin(req, res) {
-        console.log(req.body)
         try {
             let admin = await this.admin.createAdmin(req.body);
-            console.log(admin)
             const accessToken = this.generateAccessToken(admin);
             admin.accessToken = accessToken;
             res.json({
@@ -32,7 +30,6 @@ class adminController {
                 accessToken: admin.accessToken
             })
         } catch (e) {
-            console.log(e)
             res.send(e.message)
         }
 

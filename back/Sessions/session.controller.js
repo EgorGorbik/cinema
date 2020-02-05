@@ -10,7 +10,8 @@ class sessionController {
             date: joi.string(),
             hall: joi.number(),
             filmId: joi.string(),
-            time: joi.string()
+            time: joi.string(),
+            price: joi.number()
         });
     }
 

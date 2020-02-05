@@ -5,7 +5,8 @@ var sessionsSchema = new mongoose.Schema({
     date: String,
     time: String,
     hall: Number,
-    filmId: String
+    filmId: String,
+    price: Number
 });
 
 mongoose.model('Sessions', sessionsSchema);

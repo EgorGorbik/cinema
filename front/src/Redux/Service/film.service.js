@@ -7,6 +7,13 @@ export function getFilms() {
     });
 }
 
+export function getFilm(id) {
+    return axios.request({
+        method: 'get',
+        url: `http://localhost:5000/film/${id}`
+    });
+}
+
 export function delFilm(id) {
     return axios.request({
         method: 'delete',

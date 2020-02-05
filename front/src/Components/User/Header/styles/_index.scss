@@ -1,0 +1,33 @@
+.navbar {
+  background-color: #1FB095;
+}
+
+.nav-link,
+.navbar-brand {
+  font-size: 21px;
+  color: #EAEE14!important;
+}
+
+
+.navbar-brand {
+  font-size: 35px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn_auth {
+  margin: 0 5px;
+  background-color: transparent;
+  color: #EAEE14;
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  border: 2px solid #EAEE14;
+}
+
+.btn_auth:hover {
+  color: #EE5E51;
+  background-color: yellow;
+  outline: none;
+}
+

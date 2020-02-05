@@ -3,12 +3,26 @@ import {call, put} from "redux-saga/effects";
 import {loaderToFalse, loaderToTrue} from "../ActionCreators/loader.action";
 import {loginAdminError, loginAdminSuccess} from "../ActionCreators/admin.action";
 import * as films from '../Service/film.service';
-import {getFilmsSuccess, deleteFilmSuccess, createFilmSuccess, editFilmSuccess} from "../ActionCreators/films.action";
+import {getFilmsSuccess, deleteFilmSuccess, createFilmSuccess, editFilmSuccess, getFilmSuccess} from "../ActionCreators/films.action";
 
 function* getFilms(action) {
     try {
+        yield put(loaderToTrue());
         let { data } = yield call(films.getFilms);
         yield put(getFilmsSuccess(data));
+        yield put(loaderToFalse());
+    } catch (error) {
+        alert(error)
+    }
+}
+
+function* getFilm(action) {
+    try {
+        yield put(loaderToTrue());
+        let { data } = yield call(films.getFilm, action.id);
+        console.log(data)
+        yield put(getFilmSuccess(data[0]));
+        yield put(loaderToFalse());
     } catch (error) {
         alert(error)
     }
@@ -48,7 +62,8 @@ function* editFilm(action) {
 }
 
 export default function* watchFilms() {
-    yield takeEvery("GET_FILM", getFilms);
+    yield takeEvery("GET_FILMS", getFilms);
+    yield takeEvery("GET_FILM", getFilm);
     yield takeEvery("DELETE_FILM", deleteFilm);
     yield takeEvery("ADD_FILM", addFilm);
     yield takeEvery("EDIT_FILM", editFilm);

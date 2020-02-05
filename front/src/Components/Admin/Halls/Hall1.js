@@ -24,9 +24,9 @@ function Hall1(props) {
                 {
                    props.session.places.map(e => {
                        if(e.isFree) {
-                           return <div key={e.id} className='place free_place' isFree={e.isFree}>{e.place}</div>
+                           return <div key={e.id} className='place place_hall1 free_place' isFree={e.isFree}>{e.place}</div>
                        } else {
-                           return <div key={e.id} className='place taken_place' isFree={e.isFree}>{e.place}</div>
+                           return <div key={e.id} className='place place_hall1 taken_place' isFree={e.isFree}>{e.place}</div>
                        }
                    })
                 }
@@ -45,7 +45,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getFilms: () => {dispatch({type: 'GET_FILM'})},
+    getFilms: () => {dispatch({type: 'GET_FILMS'})},
     getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
     getSession: (id) => {dispatch({type: 'GET_SESSION', id: id})},
 });

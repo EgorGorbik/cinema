@@ -94,7 +94,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getFilms: () => {dispatch({type: 'GET_FILM'})},
+    getFilms: () => {dispatch({type: 'GET_FILMS'})},
     addFilm: (data, file) => {dispatch({type: 'ADD_FILM', film: data, file: file})},
     editFilm: (film, file) => {dispatch({type: 'EDIT_FILM', film: film, file: file})},
     deleteFilm: (id) => {dispatch({type: 'DELETE_FILM', id: id})},

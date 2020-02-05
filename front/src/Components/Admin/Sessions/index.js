@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Header from "../../shared/Header";
+import Header from "../Header";
 import Button from "react-bootstrap/Button";
 import '../styles/_index.scss';
 import FilmsSessions from "./FilmsSessions";
@@ -36,7 +36,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getFilms: () => {dispatch({type: 'GET_FILM'})},
+    getFilms: () => {dispatch({type: 'GET_FILMS'})},
     getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
     checkIsAdmin: (admin) => {dispatch({type: "CHECK_IS_ADMIN", admin: admin})}
 });

@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import adminReducer from '../Reducers/admin.reducer';
 import loaderReducer from '../Reducers/loader.reducer';
 import filmsReducer from '../Reducers/films.reducer';
+import filmReducer from '../Reducers/film.reducer';
 import sessionsReducer from '../Reducers/sessions.reducer';
 import sessionReducer from '../Reducers/session.reducer';
 import isAuthorizedReducer from '../Reducers/authorized.reducer';
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
     admin: adminReducer,
     loader: loaderReducer,
     films: filmsReducer,
+    film: filmReducer,
     sessions: sessionsReducer,
     session: sessionReducer,
     isAuthorized: isAuthorizedReducer

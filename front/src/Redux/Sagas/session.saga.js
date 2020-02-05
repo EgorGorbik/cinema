@@ -5,13 +5,11 @@ import {loginAdminError, loginAdminSuccess} from "../ActionCreators/admin.action
 import * as films from '../Service/film.service';
 import * as sessions from '../Service/session.service';
 import {getFilmsSuccess, deleteFilmSuccess, createFilmSuccess, editFilmSuccess} from "../ActionCreators/films.action";
-import {createSessionSuccess, setSessionsSuccess, setSessionSuccess} from "../ActionCreators/sessions";
+import {createSessionSuccess, setSessionsSuccess, setSessionSuccess, deleteSessionSuccess, setSessionFaild} from "../ActionCreators/sessions";
 
 function* getSessions(action) {
-    console.log('inside saga')
     try {
         let { data } = yield call(sessions.getSessions, action.date);
-        console.log(data)
         yield put(setSessionsSuccess(data.sessions));
        // yield put(getFilmsSuccess(data.films));
     } catch (error) {
@@ -23,19 +21,20 @@ function* getSession(action) {
     try {
         yield put(loaderToTrue());
         let { data } = yield call(sessions.getSession, action.id);
-        console.log(data[0])
         yield put(setSessionSuccess(data[0]));
         yield put(loaderToFalse());
     } catch (error) {
-        alert(error)
+        yield put(setSessionFaild());
         yield put(loaderToFalse());
     }
 }
 
-function* deleteFilm(action) {
+function* deleteSession(action) {
     try {
-        let  data  = yield call(films.delFilm, action.id);
-        yield put(deleteFilmSuccess(action.id))
+        yield put(loaderToTrue());
+        let { data } = yield call(sessions.delSession, action.id);
+        yield put(deleteSessionSuccess(data._id))
+        yield put(loaderToFalse());
     } catch (error) {
 
     }
@@ -44,9 +43,6 @@ function* deleteFilm(action) {
 function* addSession(action) {
     try {
         let {data} = yield call(sessions.addSession, action.session);
-        console.log(data)
-        console.log(new Date(data.date))
-        console.log(new Date())
         // если день на который создаём сеанс совпадает с тем что отображён сейчас
         if(new Date(data.date).getFullYear() === new Date().getFullYear() && new Date(data.date).getMonth() === new Date().getMonth() && new Date(data.date).getDate() === new Date().getDate()) {
             yield put(createSessionSuccess(data))
@@ -72,4 +68,5 @@ export default function* watchSagas() {
     yield takeEvery("GET_SESSIONS", getSessions);
     yield takeEvery("ADD_SESSION", addSession);
     yield takeEvery("GET_SESSION", getSession);
+    yield takeEvery("DEL_SESSION", deleteSession);
 }

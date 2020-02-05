@@ -1,0 +1,57 @@
+.poster_block {
+  height: 550px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.poster_photo {
+  width: 300px;
+  height: 450px;
+}
+
+.btn_buy {
+  width: 280px;
+  position: relative;
+  font-family: 'Montserrat Alternates', sans-serif;
+  color: white;
+  font-weight: 600;
+  background: #c81965;
+  border-width: 0;
+  outline: none;
+  cursor: pointer;
+}
+.btn_buy:before,
+.btn_buy:after{
+  content: "";
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  background: #c81965;
+  transition: .3s cubic-bezier(.75,.24,.01,.9);
+}
+.btn_buy:before {
+  top: 0;
+  right: -10px;
+}
+.btn_buy:after {
+  bottom: 0;
+  left: -10px;
+}
+.btn_buy:hover:before {
+  transform: translateX(-10px);
+}
+.btn_buy:hover:after {
+  transform: translateX(10px);
+}
+.btn_buy2,
+.btn_buy2:before,
+.btn_buy2:after {
+  background: #1f0b2f;
+}
+.text {
+  position: relative;
+  z-index: 2;
+}

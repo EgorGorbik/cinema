@@ -17,6 +17,13 @@ export function getSession(id) {
     });
 }
 
+export function delSession(id) {
+    return axios.request({
+        method: 'delete',
+        url: `http://localhost:5000/session/${id}`
+    });
+}
+
 export function delFilm(id) {
     return axios.request({
         method: 'delete',

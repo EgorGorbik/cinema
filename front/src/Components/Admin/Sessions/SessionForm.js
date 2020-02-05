@@ -10,18 +10,21 @@ function SessionForm(props) {
     const [hall, changeHall] = useState('');
     const [date, changeDate] = useState('');
     const [time, changeTime] = useState('');
+    const [price, changePrice] = useState('');
 
     function addSession() {
         console.log(film)
         console.log(hall)
         console.log(date)
         console.log(time)
+        console.log(price)
         let session = {
             filmId: film,
             hall: hall,
             places: [],
             date: date,
-            time: time
+            time: time,
+            price: price
         }
         props.addSession(session)
     }
@@ -32,6 +35,8 @@ function SessionForm(props) {
                 <option disabled selected="selected">Выберите фильм</option>
                 {props.films.map(e => <option value={e._id}>{e.name}</option>)}
             </select>
+            <p>Укажите цену</p>
+            <input placeholder='0' type="number" step="0.1" onChange={(e) => changePrice(e.target.value)}/>
 
             <Form.Group as={Row}>
                 <Form.Label as="legend" column sm={2}>

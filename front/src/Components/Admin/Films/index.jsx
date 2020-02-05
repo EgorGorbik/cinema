@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
-import Header from "../../shared/Header";
+import Header from "../Header";
 import {withRouter} from "react-router";
 import Films from "./Films";
 import Loader from "../../shared/Loader";
@@ -64,7 +64,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getFilms: () => {dispatch({type: 'GET_FILM'})},
+    getFilms: () => {dispatch({type: 'GET_FILMS'})},
     loginAdmin: (admin) => {dispatch({type: "LOGIN_ADMIN", admin: admin})},
     logoutAdmin: () => {dispatch({type: "LOGOUT_ADMIN"})},
     checkIsAdmin: (admin) => {dispatch({type: "CHECK_IS_ADMIN", admin: admin})}

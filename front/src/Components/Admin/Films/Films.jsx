@@ -42,7 +42,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getFilms: () => {dispatch({type: 'GET_FILM'})},
+    getFilms: () => {dispatch({type: 'GET_FILMS'})},
     loginAdmin: (admin) => {dispatch({type: "LOGIN_ADMIN", admin: admin})},
     logoutAdmin: () => {dispatch({type: "LOGOUT_ADMIN"})},
     checkIsAdmin: (admin) => {dispatch({type: "CHECK_IS_ADMIN", admin: admin})}
