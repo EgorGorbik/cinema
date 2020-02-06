@@ -6,6 +6,7 @@ import filmsReducer from '../Reducers/films.reducer';
 import filmReducer from '../Reducers/film.reducer';
 import sessionsReducer from '../Reducers/sessions.reducer';
 import sessionReducer from '../Reducers/session.reducer';
+import datesReducer from '../Reducers/date.reducer';
 import isAuthorizedReducer from '../Reducers/authorized.reducer';
 import rootSaga from "../Sagas";
 
@@ -14,6 +15,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 export const rootReducer = combineReducers({
     admin: adminReducer,
+    dates: datesReducer,
     loader: loaderReducer,
     films: filmsReducer,
     film: filmReducer,

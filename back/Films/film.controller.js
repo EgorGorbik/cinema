@@ -53,6 +53,11 @@ class filmController {
         res.send(film)
     }
 
+    async getSessionForFilm(req, res) {
+        let sessions = await this.film.getSessionsForFilm(req.params.id);
+        res.send(sessions)
+    }
+
     async updateFilm(req, res) {
         let film = await this.film.updateFilm(req.params.id, req.body);
         res.send(film);

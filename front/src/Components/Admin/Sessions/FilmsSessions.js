@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import FilmForm from "../Films/FilmForm";
 import Session from "./Session";
 import SessionForm from "./SessionForm";
+import Loader from "../../shared/Loader";
 
 function FilmsSessions(props) {
 
@@ -57,6 +58,10 @@ function FilmsSessions(props) {
         changeFormFlag(!isFormOpen)
     }
 
+    if(props.loader) {
+        return <Loader/>
+    }
+
     return (
         <div className='film_content'>
             <Button onClick={() => createSession()}>{isFormOpen? 'Отмена': 'Создать'}</Button>
@@ -75,7 +80,8 @@ function FilmsSessions(props) {
 
 const mapStateToProps = (state) => ({
     sessions: state.sessions,
-    films: state.films
+    films: state.films,
+    loader: state.loader
 });
 
 const mapDispatchToProps = (dispatch) =>  ({

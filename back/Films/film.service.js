@@ -80,6 +80,15 @@ class ServiceFilm {
             return await e.message
         }
     }
+
+    async getSessionsForFilm(_id) {
+        try {
+            let k = await this.session.find({filmId: _id});
+            return k
+        } catch (e) {
+            return await e.message
+        }
+    }
 }
 
 module.exports = ServiceFilm;

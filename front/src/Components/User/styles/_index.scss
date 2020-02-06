@@ -17,3 +17,45 @@
   margin-top: 50px;
   justify-content: space-around;
 }
+
+.film_info {
+  display: flex;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.about_film {
+  margin: 0 4%;
+}
+
+.film_decription {
+  margin-top: 20px;
+}
+
+.input_select_data {
+  text-align: center;
+  width: 40%;
+  margin: 40px auto;
+}
+
+.session_time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  margin: 20px 0;
+  width: 100%;
+  color: white;
+  background-color: #1f0b2f;
+  cursor: pointer;
+}
+
+.session_time:hover {
+  background-color: #1FB095;
+  color: #1f0b2f;
+}
+
+.session_information {
+  font-size: 50px;
+  text-align: center;
+}

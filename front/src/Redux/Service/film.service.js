@@ -1,5 +1,7 @@
 import axios from "axios";
 
+
+
 export function getFilms() {
     return axios.request({
         method: 'get',
@@ -11,6 +13,13 @@ export function getFilm(id) {
     return axios.request({
         method: 'get',
         url: `http://localhost:5000/film/${id}`
+    });
+}
+
+export function getSessionsForFilm(id) {
+    return axios.request({
+        method: 'get',
+        url: `http://localhost:5000/sessionsForFilm/${id}`
     });
 }
 
@@ -40,6 +49,7 @@ export function addPoster(file, name) {
 }
 
 export function editFilm(data) {
+    console.log('service edit film')
     return axios.request({
         method: 'put',
         url: `http://localhost:5000/film/${data.id}`,

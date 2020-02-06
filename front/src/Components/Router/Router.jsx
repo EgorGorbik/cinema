@@ -8,6 +8,8 @@ import AdminSessions from "../Admin/Sessions";
 import SessionInfo from "../Admin/Sessions/SessionInfo";
 import Main from "../User/Main";
 import Film from "../User/Film";
+import Session from "../User/Session";
+import Login from "../User/LogIn"
 
 
 class Router extends Component {
@@ -20,6 +22,12 @@ class Router extends Component {
                 </Route>
                 <Route exact path="/film/:id">
                     <Film/>
+                </Route>
+                <Route exact path="/session/:id">
+                    <Session/>
+                </Route>
+                <Route exact path="/login">
+                    <Login/>
                 </Route>
                 <Route exact path='/admin'>
                     <Profile/>

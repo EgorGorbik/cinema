@@ -1,0 +1,30 @@
+.main_login_admin {
+  height: 100vh;
+  background-color: #1FB095;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin_login_form {
+  width: 90%;
+  max-width: 400px;
+  margin-bottom: 10%;
+  color: yellow;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.create_film_form {
+  width: 50%;
+  margin: 100px auto;
+  color: #9D1905;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.admin_login_button {
+  @media screen and (max-device-width: 481px) {
+    width: 100%;
+  }
+}

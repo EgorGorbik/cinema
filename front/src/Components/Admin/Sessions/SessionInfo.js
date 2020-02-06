@@ -4,9 +4,9 @@ import {withRouter} from "react-router";
 import Header from "../Header";
 import '../styles/_index.scss';
 import Button from "react-bootstrap/Button";
-import Hall1 from "../Halls/Hall1";
-import Hall2 from "../Halls/Hall2";
-import Hall3 from "../Halls/Hall3";
+import Hall1 from "../../shared/Halls/Hall1";
+import Hall2 from "../../shared/Halls/Hall2";
+import Hall3 from "../../shared/Halls/Hall3";
 import Loader from "../../shared/Loader";
 import SessionForm from "./SessionForm"
 import { Modal } from 'react-bootstrap';

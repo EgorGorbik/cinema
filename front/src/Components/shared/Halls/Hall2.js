@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import {withRouter} from "react-router";
-import Loader from "../../shared/Loader";
+import Loader from "../Loader";
 
-function Hall1(props) {
+function Hall2 (props) {
 
     console.log(props.session)
 
@@ -14,7 +14,7 @@ function Hall1(props) {
     }
 
     let rows = [];
-    for(let i = 1; i <= 8; i++) {
+    for(let i = 1; i <= 6; i++) {
         rows.push(<div className='row'>{i} ряд</div>)
     }
 
@@ -22,13 +22,13 @@ function Hall1(props) {
         <div className='hall'>
             <div className='places'>
                 {
-                   props.session.places.map(e => {
-                       if(e.isFree) {
-                           return <div key={e.id} className='place place_hall1 free_place' isFree={e.isFree}>{e.place}</div>
-                       } else {
-                           return <div key={e.id} className='place place_hall1 taken_place' isFree={e.isFree}>{e.place}</div>
-                       }
-                   })
+                    props.session.places.map(e => {
+                        if(e.isFree) {
+                            return <div key={e.id} onClick={() => props.isUser && props.choosePlace()} className='place place_hall2 free_place' isFree={e.isFree}>{e.place}</div>
+                        } else {
+                            return <div key={e.id} className='place place_hall2 taken_place' isFree={e.isFree}>{e.place}</div>
+                        }
+                    })
                 }
             </div>
             <div className='rows'>
@@ -53,4 +53,4 @@ const mapDispatchToProps = (dispatch) =>  ({
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(Hall1));
+)(Hall2));
