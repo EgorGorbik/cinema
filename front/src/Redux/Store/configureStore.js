@@ -8,6 +8,7 @@ import sessionsReducer from '../Reducers/sessions.reducer';
 import sessionReducer from '../Reducers/session.reducer';
 import datesReducer from '../Reducers/date.reducer';
 import isAuthorizedReducer from '../Reducers/authorized.reducer';
+import userReducer from '../Reducers/user.reducer';
 import rootSaga from "../Sagas";
 
 
@@ -21,7 +22,8 @@ export const rootReducer = combineReducers({
     film: filmReducer,
     sessions: sessionsReducer,
     session: sessionReducer,
-    isAuthorized: isAuthorizedReducer
+    isAuthorized: isAuthorizedReducer,
+    user: userReducer
 });
 
 

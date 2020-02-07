@@ -24,7 +24,7 @@ function Hall1(props) {
                 {
                    props.session.places.map(e => {
                        if(e.isFree) {
-                           return <div key={e.id} onClick={() => props.isUser && props.choosePlace()} className='place place_hall1 free_place' isFree={e.isFree}>{e.place}</div>
+                           return <div key={e.id} onClick={(element) => {props.isUser && props.choosePlace(e, element)}} className='place place_hall1 free_place' isFree={e.isFree}>{e.place}</div>
                        } else {
                            return <div key={e.id} className='place place_hall1 taken_place' isFree={e.isFree}>{e.place}</div>
                        }

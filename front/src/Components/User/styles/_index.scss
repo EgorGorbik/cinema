@@ -55,7 +55,11 @@
   color: #1f0b2f;
 }
 
-.session_information {
-  font-size: 50px;
-  text-align: center;
+.session_header {
+  height: 200px;
+  width: 50%;
+  margin: 0 auto;
+  font-size: 20px;
+  text-align: left;
+  display: flex;
 }

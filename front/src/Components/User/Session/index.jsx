@@ -20,6 +20,8 @@ function Session(props) {
     const [date, changeDate] = useState('');
     const [time, changeTime] = useState('');
 
+    const [ choosePlaces, changeChoosePlaces ] = useState([]);
+
     useEffect(() => {
         props.getFilms();
         props.getSession(props.match.params.id)
@@ -57,18 +59,43 @@ function Session(props) {
         }
     }
 
-    function choosePlace() {
-        if(props.user) {
-
+    function choosePlace(e, element) {
+        if(props.user.data) {
+            let isChoosePlace = choosePlaces.find(el => el.id === e.id);
+                if(isChoosePlace) {
+                    changeChoosePlaces((prevState => {
+                        let newState = prevState;
+                        let index = newState.findIndex(el => el.id === e.id);
+                        newState.splice(index, 1);
+                        return [...newState]
+                    }));
+                    console.log(choosePlaces)
+                    element.target.style.backgroundColor = 'white';
+                } else {
+                    if(choosePlaces.length < 4) {
+                        changeChoosePlaces((prevState => [...prevState, e]));
+                        element.target.style.backgroundColor = '#F58080';
+                    }
+                }
         } else {
             handleShow();
         }
     }
 
-    console.log(props.session)
+    const payment = () => {
+        console.log(props.session.price);
+        let totalPrice = props.session.price * choosePlaces.length;
+        let isPay = window.confirm(`общая стоимость ${totalPrice}р. Оплатить заказ?`);
+
+    }
+
+    console.log(choosePlaces)
+
+    console.log(localStorage.getItem('user_access_token'))
 
     return (
-        <div>
+        <div>{
+           !localStorage.getItem('user_access_token') &&
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Войдите в систему!</Modal.Title>
@@ -76,14 +103,29 @@ function Session(props) {
                 <Modal.Body>Вы не можете выбирать места пока вы не в системе. Пожалуйста выполните вход или зарегистрируйтесь.</Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => props.history.push('/login')}>Войти</Button>
-                    <Button>Зарегистрироваться</Button>
+                    <Button onClick={() => props.history.push('/registration')}>Зарегистрироваться</Button>
                 </Modal.Footer>
             </Modal>
+        }
+
+
+
             <Header/>
-            <div className='session_information'>
-                <div>{film}</div>
-                <div>{date}</div>
-                <div>{props.session.time}</div>
+            <div className='session_header'>
+                <div className='session_information'>
+                    <h3>{film}</h3>
+                    <div>{date}</div>
+                    <div>{props.session.time}</div>
+                </div>
+                <div className='choose_place'> {
+                    props.user.data &&
+                    <div>
+                        <h3>Выбранные места</h3>
+                        {choosePlaces[0] && <Button onClick={() => payment()}>оплатить</Button>}
+                        {choosePlaces.map(e => <div>{`${e.row} ряд ${e.place} место`}</div>)}
+                    </div>
+                }
+                </div>
             </div>
             <div>{hall}</div>
         </div>
@@ -94,7 +136,8 @@ const mapStateToProps = (state) => ({
     sessions: state.sessions,
     session: state.session,
     films: state.films,
-    loader: state.loader
+    loader: state.loader,
+    user: state.user
 });
 
 const mapDispatchToProps = (dispatch) =>  ({

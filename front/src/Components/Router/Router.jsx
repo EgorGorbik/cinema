@@ -10,6 +10,7 @@ import Main from "../User/Main";
 import Film from "../User/Film";
 import Session from "../User/Session";
 import Login from "../User/LogIn"
+import Registration from "../User/Registration";
 
 
 class Router extends Component {
@@ -28,6 +29,9 @@ class Router extends Component {
                 </Route>
                 <Route exact path="/login">
                     <Login/>
+                </Route>
+                <Route exact path="/registration">
+                    <Registration/>
                 </Route>
                 <Route exact path='/admin'>
                     <Profile/>

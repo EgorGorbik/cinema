@@ -11,6 +11,10 @@ function Initialization(props) {
         props.checkIsAdmin();
     }, [props.checkIsAdmin]);
 
+    useEffect(() => {
+        props.checkIsUser()
+    }, [])
+
     return (
         <Router/>
     )
@@ -24,7 +28,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) =>  ({
     getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
-    checkIsAdmin: (admin) => {dispatch({type: "CHECK_IS_ADMIN", admin: admin})}
+    checkIsAdmin: (admin) => {dispatch({type: "CHECK_IS_ADMIN", admin: admin})},
+    checkIsUser: (user) => {dispatch({type: "CHECK_IS_USER", user: user})},
 });
 
 export default withRouter(connect(

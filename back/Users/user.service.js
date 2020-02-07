@@ -4,6 +4,15 @@ class ServiceUser {
         this.user = mongoose.model('User');
     }
 
+    async getUserByUsername(username) {
+        try {
+            return await this.user.findOne({username: username});
+        } catch (e) {
+            return e.message
+        }
+
+    }
+
     async createUser(userArg) {
         let user = new this.user(userArg);
         user.save();
