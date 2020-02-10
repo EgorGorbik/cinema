@@ -26,6 +26,46 @@ class sessionController {
         })
     }
 
+    async choosePlace(req, res) {
+        console.log('--------------------------')
+        console.log(req.body)
+        console.log(req.body.idPlace)
+        console.log('--------------------------')
+        let session = await this.session.getSession(req.body.idSession);
+        console.log(session)
+        let newPlacesArray = [];
+        newPlacesArray = session[0].places.map(e => {
+            if(e.id === +req.body.idPlace) {
+                e.isFree = false;
+                return e;
+            } else {
+                return e;
+            }
+        })
+        session[0].places = newPlacesArray
+        let rez = await this.session.updateSession(req.body.idSession, session[0])
+        res.send(rez)
+    }
+
+    async cancelChoosePlace(req, res) {
+
+        let session = await this.session.getSession(req.body.idSession);
+        let newPlacesArray = [];
+        newPlacesArray = session[0].places.map(e => {
+            if(e.id === +req.body.idPlace) {
+                e.isFree = true;
+                return e;
+            } else {
+                return e;
+            }
+        })
+        session[0].places = newPlacesArray
+        let rez = await this.session.updateSession(req.body.idSession, session[0])
+        console.log('-------------------')
+        console.log(rez)
+        res.send(rez)
+    }
+
     async getSessions(req, res) {
         let session = await this.session.getSessions();
         res.send(session)

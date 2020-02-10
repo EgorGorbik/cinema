@@ -13,7 +13,6 @@ export const fetchUserData = async () => {
 }
 
 export function loginUser(data) {
-    console.log(data)
     return axios.request({
         method: 'post',
         url: `http://localhost:5000/user/login`,
@@ -22,8 +21,6 @@ export function loginUser(data) {
 }
 
 export function registerUser(data) {
-    console.log(data.user)
-    console.log(data.user)
     return axios.request({
         method: 'post',
         url: `http://localhost:5000/user/registration`,

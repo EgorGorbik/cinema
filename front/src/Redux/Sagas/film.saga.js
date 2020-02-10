@@ -27,7 +27,6 @@ function* getFilm(action) {
     try {
         yield put(loaderToTrue());
         let { data } = yield call(filmService.getFilm, action.id);
-        console.log(data)
         yield put(getFilmSuccess(data[0]));
         yield put(loaderToFalse());
     } catch (error) {
@@ -39,7 +38,6 @@ function* getSessionsForFilm(action) {
     try {
         yield put(loaderToTrue());
         let { data } = yield call(filmService.getSessionsForFilm, action.id);
-        console.log(data)
         yield put(getDatesSuccess(data));
         yield put(loaderToFalse());
     } catch (error) {
@@ -64,7 +62,7 @@ function* addFilm(action) {
         let {data} = yield call(filmService.addFilm, action.film);
         yield put(createFilmSuccess(data))
     } catch (error) {
-        console.log(error)
+
     }
 }
 
@@ -73,12 +71,9 @@ function* editFilm(action) {
         let f = yield call(filmService.addPoster, action.file, 123);
         let film = action.film;
         film.src = f.data.filename;
-        console.log('before the request')
         let {data}= yield call(filmService.editFilm, action.film);
-        console.log(data)
         yield put(editFilmSuccess(data))
     } catch (error) {
-        console.log(error)
     }
 }
 

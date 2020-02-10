@@ -12,7 +12,6 @@ function AdminLogIn(props) {
     let username = useRef();
     const password = useRef();
 
-    console.log(props.admin.isAdminLogged)
     if(props.loader || props.admin.isAdminLogged === undefined) { // непонятно почему сначала отображается этот компонент и только потом в саге put loader на true, поэтому такой костыль
         return <Loader/>
     }

@@ -10,7 +10,5 @@ import usersSaga from './users.saga';
 
 export default function* rootSaga() {
     yield all([adminSaga(), filmsSaga(), sessionsSaga(), usersSaga()]);
-/*    console.log('watch')
-    yield takeEvery("LOGIN_ADMIN", isAdminCheck)*/
 }
 

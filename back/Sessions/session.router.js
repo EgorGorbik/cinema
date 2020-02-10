@@ -7,5 +7,8 @@ function router(app) {
     app.post('/session/', (req, res) => controller.createSession(req, res));
     app.put('/session/:id', (req, res) => controller.updateSession(req, res));
     app.delete('/session/:id', (req, res) => controller.deleteSession(req, res));
+
+    app.put('/choosePlace', (req, res) => controller.choosePlace(req, res));
+    app.put('/cancelChoosePlace', (req, res) => controller.cancelChoosePlace(req, res));
 }
 module.exports = router;

@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export function getSessions(date) {
-    console.log(date)
     return axios.request({
         method: 'get',
         data: {date: date},
@@ -10,7 +9,6 @@ export function getSessions(date) {
 }
 
 export function getSession(id) {
-    console.log(id)
     return axios.request({
         method: 'get',
         url: `http://localhost:5000/session/${id}`
@@ -35,6 +33,25 @@ export function addSession(data) {
     return axios.request({
         method: 'post',
         url: `http://localhost:5000/session`,
+        data: data
+    });
+}
+
+export function choosePlace(data) {
+    console.log('service')
+    console.log(data)
+    return axios.request({
+        method: 'put',
+        url: `http://localhost:5000/choosePlace`,
+        data: data
+    });
+}
+
+export function cancelChoosePlace(data) {
+
+    return axios.request({
+        method: 'put',
+        url: `http://localhost:5000/cancelChoosePlace`,
         data: data
     });
 }

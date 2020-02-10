@@ -32,6 +32,11 @@ function Registration(props) {
                         {props.user.error}
                     </p>
                 </Alert>}
+                {errorRegistration && <Alert className='admin_login_alert' variant="danger" >
+                    <p>
+                        Все поля должны быть заполнены!
+                    </p>
+                </Alert>}
                 <Form.Group controlId="formBasicEmail">
                     <div className='auth_header'>Registration</div>
                     <Form.Label>Username</Form.Label>
@@ -45,6 +50,7 @@ function Registration(props) {
                 <Button className='admin_login_button' onClick={() => {handleSubmit()}} variant="primary" >
                     Register
                 </Button>
+                <div className='auth_link' onClick={() => props.history.push('/login')}>Login</div>
             </Form>
         </div>
     )

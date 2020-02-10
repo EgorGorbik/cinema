@@ -49,6 +49,7 @@ class ServiceSession {
     }
 
     async getSession(_id) {
+        console.log(_id)
         try {
             return await this.session.find({_id});
         } catch (e) {
@@ -58,20 +59,7 @@ class ServiceSession {
 
     async getSessionByDate(date) {
         try {
-            let sessions = await this.session.find({date: date});
 
-            let films = [];
-            sessions.forEach(el => {if(!films.includes(el.filmId)){
-                films.push(el.filmId)
-            }})
-            //let f = await films.map(async el => await this.film.getFilm(el))
-            let f = [];
-
-            let temp = await this.film.getFilm(films[0])
-            for(let i = 0; i < films.length; i++) {
-                let temp = await this.film.getFilm(films[i]);
-                f.push(temp[0]);
-            }
             return {sessions: sessions, films: f}
         } catch (e) {
             return e.message
@@ -80,8 +68,39 @@ class ServiceSession {
 
     async updateSession(_id, userArg) {
         try {
-            await this.film.find({_id: userArg.filmId})
+            console.log(userArg)
             return await this.session.findOneAndUpdate({_id}, userArg, {new: true})
+        } catch (e) {
+            return e.message
+        }
+    }
+
+    async choosePlace(_id, idPlace) {
+        console.log('service ')
+        try {
+            console.log('session service')
+            console.log(_id)
+            console.log(idPlace)
+            let session = await this.session.findOne({_id});
+            console.log(session)
+            let newPlaces = [];
+            session.places.forEach(e => {
+                if(e.id !== +idPlace) {newPlaces.push(e)}
+                else {
+                    e.isFree = false;
+                    newPlaces.push(e)
+                }
+            })
+            console.log(newPlaces);
+            let newObj = {...session, newPlaces};
+            console.log(newObj)
+            let k = await this.session.findOneAndUpdate({_id}, newObj, {new: true})
+            console.log('---------------------------------------')
+            console.log(k)
+            return k
+            //return {...state, places: newPlaces}
+            //await this.film.find({_id: userArg.filmId})
+            //return await this.session.findOneAndUpdate({_id}, userArg, {new: true})
         } catch (e) {
             return e.message
         }

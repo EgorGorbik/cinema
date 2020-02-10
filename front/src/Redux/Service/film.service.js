@@ -49,7 +49,6 @@ export function addPoster(file, name) {
 }
 
 export function editFilm(data) {
-    console.log('service edit film')
     return axios.request({
         method: 'put',
         url: `http://localhost:5000/film/${data.id}`,

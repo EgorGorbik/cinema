@@ -40,6 +40,25 @@ function* deleteSession(action) {
     }
 }
 
+function* choosePlace(action) {
+    console.log('choosePlace')
+    try {
+        let {data} = yield call(sessions.choosePlace, action.data);
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+function* cancelChoosePlace(action) {
+    try {
+        let {data} = yield call(sessions.cancelChoosePlace, action.data);
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 function* addSession(action) {
     try {
         let {data} = yield call(sessions.addSession, action.session);
@@ -48,7 +67,6 @@ function* addSession(action) {
             yield put(createSessionSuccess(data))
         }
     } catch (error) {
-        console.log(error)
     }
 }
 
@@ -69,4 +87,6 @@ export default function* watchSagas() {
     yield takeEvery("ADD_SESSION", addSession);
     yield takeEvery("GET_SESSION", getSession);
     yield takeEvery("DEL_SESSION", deleteSession);
+    yield takeEvery("CHOOSE_PLACE", choosePlace);
+    yield takeEvery("CANCEL_CHOOSE_PLACE", cancelChoosePlace);
 }

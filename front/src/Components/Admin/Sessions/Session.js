@@ -19,7 +19,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
+    getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
 });
 
 export default withRouter(connect(

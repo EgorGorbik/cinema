@@ -7,7 +7,6 @@ import Films from "./Films";
 import Loader from "../../shared/Loader";
 
 function AdminFilms(props) {
-    console.log(props.films)
     const [isLoading, changeLoading] = useState(false);
     const [mustRedirect, changeRedirectFlag] = useState(false);
 
@@ -34,13 +33,8 @@ function AdminFilms(props) {
         return(<Redirect to='/admin/login'/>)
     }
 
-    console.log('--------------')
-    console.log(props.loader)
-    console.log(props.admin.isAdminLogged)
-    console.log(props.admin.isAdminLogged)
 
     if(props.loader || props.admin.isAdminLogged === undefined) {
-        console.log('loading...')
         return <Loader/>
     } else {
         if(!props.admin.isAdminLogged) {

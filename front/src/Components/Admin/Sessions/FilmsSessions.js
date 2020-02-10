@@ -16,15 +16,11 @@ function FilmsSessions(props) {
 
     useEffect(() => {
         date = convertDateToInputFormat();
-        console.log(date)
         props.getSessions(date);
         changeSelectedDate(convertDateToRussianFormat(new Date()))
     }, [])
 
     let date = React.createRef();
-
-    console.log(props.films)
-    console.log(props.sessions)
 
     function searchSessionForDay() {
         if(date.current.value) {

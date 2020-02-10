@@ -12,7 +12,6 @@ function Main(props) {
     }, [])
 
     if(props.loader || !props.films) {
-        console.log('loading...')
         return <Loader/>
     }
 

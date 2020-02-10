@@ -13,17 +13,15 @@ function* loginUser(action) {
         yield put(setUserSuccess(data.user));
         yield put(loaderToFalse());
     } catch (error) {
-        //yield put(loginAdminError());
+        yield put(setUserFailed(error.response.data.error));
         yield put(loaderToFalse());
     }
 }
 
 function* isUserCheck() {
-    console.log('saga check is user')
+    yield put(loaderToTrue());
     try {
-        yield put(loaderToTrue());
         let { data } = yield call(users.checkIsUser);
-        console.log(data)
        // const data = yield axios({method: 'POST', url: 'http://localhost:5000/admin/getPermission', headers: {Authorization: 'Bearer ' + localStorage.getItem('admin_access_token')} } )
         yield put(setUserSuccess(data.user));
         yield put(loaderToFalse());
@@ -35,9 +33,7 @@ function* isUserCheck() {
 }
 
 function* logoutUser() {
-    console.log('logout user saga')
     let { data } = yield call(users.logoutUser);
-    console.log(data)
     localStorage.removeItem('user_access_token');
     yield put(logoutUserSuccess());
     yield put(loaderToFalse());
@@ -52,7 +48,6 @@ function* registerUser(user) {
         yield put(loaderToFalse());
     } catch (error) {
         yield put(setUserFailed(error.response.statusText));
-        console.log(error.response.statusText);
         yield put(loaderToFalse());
     }
 }

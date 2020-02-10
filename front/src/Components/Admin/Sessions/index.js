@@ -37,7 +37,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) =>  ({
     getFilms: () => {dispatch({type: 'GET_FILMS'})},
-    getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
+    getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
     checkIsAdmin: (admin) => {dispatch({type: "CHECK_IS_ADMIN", admin: admin})}
 });
 

@@ -13,11 +13,6 @@ function SessionForm(props) {
     const [price, changePrice] = useState('');
 
     function addSession() {
-        console.log(film)
-        console.log(hall)
-        console.log(date)
-        console.log(time)
-        console.log(price)
         let session = {
             filmId: film,
             hall: hall,
@@ -80,8 +75,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
-    addSession: (date) => {console.log(date); dispatch({type: 'ADD_SESSION', session: date})},
+    getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
+    addSession: (date) => {dispatch({type: 'ADD_SESSION', session: date})},
 });
 
 export default withRouter(connect(

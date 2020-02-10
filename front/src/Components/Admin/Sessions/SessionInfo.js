@@ -36,7 +36,6 @@ function SessionInfo(props) {
     useEffect(() => {
         props.getFilms();
         props.getSession(props.match.params.id)
-        console.log(props.session)
     }, [])
 
 
@@ -46,17 +45,14 @@ function SessionInfo(props) {
             changeFilm(film.name);
             changeDate(props.session.date);
             changeTime(props.session.time)
-            console.log(props.session)
             changePlaces(props.session.places.length);
             let salesCounter = 0;
             props.session.places.forEach(e => {if(!e.isFree) salesCounter++;} )
-            console.log(salesCounter)
             changeSales(salesCounter);
         }
     }, [props.session])
 
 
-console.log(props.session)
     if(props.loader) {
         return <Loader/>
     }
@@ -76,8 +72,6 @@ console.log(props.session)
                 break;
         }
     }
-
-    console.log(hall)
 
 
 
@@ -124,7 +118,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) =>  ({
     getFilms: () => {dispatch({type: 'GET_FILMS'})},
-    getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
+    getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
     getSession: (id) => {dispatch({type: 'GET_SESSION', id: id})},
     deleteSession: (id) => {dispatch({type: 'DEL_SESSION', id: id})},
 });

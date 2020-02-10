@@ -6,7 +6,6 @@ import {connect} from "react-redux";
 
 function Film(props) {
 
-    console.log(props.sessions)
     return (
         <div className='film'>
             <img className='poster' src={ props.src ? `http://localhost:5000/${props.src}` : './../../../img/noposter.jpg'}/>
@@ -30,7 +29,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
+    getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
 });
 
 export default withRouter(connect(

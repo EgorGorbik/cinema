@@ -5,8 +5,6 @@ import Loader from "../Loader";
 
 function Hall2 (props) {
 
-    console.log(props.session)
-
     if(props.loader || props.session === null) {
         return (
             <Loader/>
@@ -24,9 +22,9 @@ function Hall2 (props) {
                 {
                     props.session.places.map(e => {
                         if(e.isFree) {
-                            return <div key={e.id} onClick={() => props.isUser && props.choosePlace()} className='place place_hall2 free_place' isFree={e.isFree}>{e.place}</div>
+                            return <div id={e.id} key={e.id} onClick={() => props.isUser && props.choosePlace()} className='place place_hall2 free_place' isFree={e.isFree}>{e.place}</div>
                         } else {
-                            return <div key={e.id} className='place place_hall2 taken_place' isFree={e.isFree}>{e.place}</div>
+                            return <div id={e.id} key={e.id} className='place place_hall2 taken_place' isFree={e.isFree}>{e.place}</div>
                         }
                     })
                 }
@@ -46,7 +44,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) =>  ({
     getFilms: () => {dispatch({type: 'GET_FILMS'})},
-    getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
+    getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
     getSession: (id) => {dispatch({type: 'GET_SESSION', id: id})},
 });
 

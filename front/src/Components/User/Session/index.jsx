@@ -9,6 +9,7 @@ import Hall2 from "../../shared/Halls/Hall2";
 import Hall3 from "../../shared/Halls/Hall3";
 import {Modal} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import {socket} from "../../../config/socket";
 
 function Session(props) {
     const [show, setShow] = useState(false);
@@ -25,22 +26,37 @@ function Session(props) {
     useEffect(() => {
         props.getFilms();
         props.getSession(props.match.params.id)
-        console.log(props.session)
     }, [])
 
     useEffect(() => {
-        if(props.session) {
+        console.log(props.session)
+        if(props.session && props.films) {
             let film = props.films.find(el => el._id === props.session.filmId) ;
             changeFilm(film.name);
             changeDate(props.session.date);
             changeTime(props.session.time)
-            console.log(props.session)
         }
+    }, [props.session])
+
+    useEffect(() => {
+        if(!props.user.data) {
+            choosePlaces.forEach(e => {e.element.style.backgroundColor = 'white'})
+        }
+    }, [props.user])
+
+    useEffect(() => {
+        props.session && props.user.data &&
+        socket.emit('connectSessionRoom',{
+            id: props.session._id
+        });
     }, [props.session])
 
     if(props.loader || !props.session) {
         return <Loader/>
     }
+
+    console.log(props.session)
+
 
     let hall;
     if(!props.session) {
@@ -63,18 +79,28 @@ function Session(props) {
         if(props.user.data) {
             let isChoosePlace = choosePlaces.find(el => el.id === e.id);
                 if(isChoosePlace) {
+                    props.cancelChoosePlace(+element.target.id, props.session._id)
+                    socket.emit('cancelChoosePlace',{
+                        idPlace: element.target.id,
+                        idRoom: props.session._id
+                    });
                     changeChoosePlaces((prevState => {
                         let newState = prevState;
                         let index = newState.findIndex(el => el.id === e.id);
                         newState.splice(index, 1);
                         return [...newState]
                     }));
-                    console.log(choosePlaces)
                     element.target.style.backgroundColor = 'white';
                 } else {
                     if(choosePlaces.length < 4) {
+                        props.choosePlace(+element.target.id, props.session._id)
+                        socket.emit('choosePlace',{
+                            idPlace: element.target.id,
+                            idRoom: props.session._id
+                        });
+                        e.element = element.target;
                         changeChoosePlaces((prevState => [...prevState, e]));
-                        element.target.style.backgroundColor = '#F58080';
+                        e.element.style.backgroundColor = '#F58080';
                     }
                 }
         } else {
@@ -83,15 +109,10 @@ function Session(props) {
     }
 
     const payment = () => {
-        console.log(props.session.price);
         let totalPrice = props.session.price * choosePlaces.length;
         let isPay = window.confirm(`общая стоимость ${totalPrice}р. Оплатить заказ?`);
 
     }
-
-    console.log(choosePlaces)
-
-    console.log(localStorage.getItem('user_access_token'))
 
     return (
         <div>{
@@ -142,9 +163,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) =>  ({
     getFilms: () => {dispatch({type: 'GET_FILMS'})},
-    getSessions: (date) => {console.log(date); dispatch({type: 'GET_SESSIONS', date: date})},
+    getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
     getSession: (id) => {dispatch({type: 'GET_SESSION', id: id})},
     deleteSession: (id) => {dispatch({type: 'DEL_SESSION', id: id})},
+    choosePlace: (idPlace, idSession) => {dispatch({type: 'CHOOSE_PLACE', data: {idPlace: idPlace, idSession: idSession}})},
+    cancelChoosePlace: (idPlace, idSession) => {dispatch({type: 'CANCEL_CHOOSE_PLACE', data: {idPlace: idPlace, idSession: idSession}})},
 });
 
 export default withRouter(connect(

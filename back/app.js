@@ -5,6 +5,8 @@ const userRouter = require('./Users/user.router');
 const adminRouter = require('./Admin/admin.router');
 const filmRouter = require('./Films/film.router');
 const sessionRouter = require('./Sessions/session.router');
+const socket = require('socket.io');
+const socketEvents = require('./shared/socket/socket');
 require('./Users/user.model');
 require('./Admin/admin.model');
 require('./Films/film.model');
@@ -18,3 +20,8 @@ userRouter(app);
 adminRouter(app);
 sessionRouter(app);
 filmRouter(app);
+
+const io = socket(server);
+socketEvents(io);
+
+
