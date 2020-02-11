@@ -22,7 +22,7 @@ function Hall3 (props) {
                 {
                     props.session.places.map(e => {
                         if(e.isFree) {
-                            return <div id={e.id} key={e.id} onClick={() => props.isUser && props.choosePlace()} className='place place_hall3 free_place' isFree={e.isFree}>{e.place}</div>
+                            return <div id={e.id} key={e.id} onClick={() => props.isUser && props.choosePlace(e)} className='place place_hall3 free_place' isFree={e.isFree}>{e.place}</div>
                         } else {
                             return <div id={e.id} key={e.id} className='place place_hall3 taken_place' isFree={e.isFree}>{e.place}</div>
                         }

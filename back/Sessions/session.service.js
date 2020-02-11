@@ -13,7 +13,7 @@ class ServiceSession {
     async hangTimerForOneFilm(session) {
         let currentTime = new Date();
         currentTime = currentTime.getTime();
-        setTimeout(() => {this.deleteSession(session._id); console.log(session._id)}, session.date - currentTime)
+        setTimeout(() => {this.deleteSession(session._id); }, session.date - currentTime)
     }
 
     async createSession(userArg) {
@@ -49,7 +49,6 @@ class ServiceSession {
     }
 
     async getSession(_id) {
-        console.log(_id)
         try {
             return await this.session.find({_id});
         } catch (e) {
@@ -68,7 +67,6 @@ class ServiceSession {
 
     async updateSession(_id, userArg) {
         try {
-            console.log(userArg)
             return await this.session.findOneAndUpdate({_id}, userArg, {new: true})
         } catch (e) {
             return e.message
@@ -76,13 +74,8 @@ class ServiceSession {
     }
 
     async choosePlace(_id, idPlace) {
-        console.log('service ')
         try {
-            console.log('session service')
-            console.log(_id)
-            console.log(idPlace)
             let session = await this.session.findOne({_id});
-            console.log(session)
             let newPlaces = [];
             session.places.forEach(e => {
                 if(e.id !== +idPlace) {newPlaces.push(e)}
@@ -91,12 +84,8 @@ class ServiceSession {
                     newPlaces.push(e)
                 }
             })
-            console.log(newPlaces);
             let newObj = {...session, newPlaces};
-            console.log(newObj)
             let k = await this.session.findOneAndUpdate({_id}, newObj, {new: true})
-            console.log('---------------------------------------')
-            console.log(k)
             return k
             //return {...state, places: newPlaces}
             //await this.film.find({_id: userArg.filmId})

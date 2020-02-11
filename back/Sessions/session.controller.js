@@ -27,12 +27,7 @@ class sessionController {
     }
 
     async choosePlace(req, res) {
-        console.log('--------------------------')
-        console.log(req.body)
-        console.log(req.body.idPlace)
-        console.log('--------------------------')
         let session = await this.session.getSession(req.body.idSession);
-        console.log(session)
         let newPlacesArray = [];
         newPlacesArray = session[0].places.map(e => {
             if(e.id === +req.body.idPlace) {
@@ -48,7 +43,7 @@ class sessionController {
     }
 
     async cancelChoosePlace(req, res) {
-
+        console.log('cancel')
         let session = await this.session.getSession(req.body.idSession);
         let newPlacesArray = [];
         newPlacesArray = session[0].places.map(e => {
@@ -61,8 +56,6 @@ class sessionController {
         })
         session[0].places = newPlacesArray
         let rez = await this.session.updateSession(req.body.idSession, session[0])
-        console.log('-------------------')
-        console.log(rez)
         res.send(rez)
     }
 
@@ -78,8 +71,6 @@ class sessionController {
 
     async getSessionByDate(req, res) {
         let sessions = await this.session.getSessionByDate(req.params.date);
-        console.log('======')
-        console.log(sessions)
         res.send(sessions)
     }
 

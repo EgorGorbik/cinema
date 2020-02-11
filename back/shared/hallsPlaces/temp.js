@@ -101,6 +101,5 @@ let arr = [
         delete arr[i]["price"]
     }
 
-    console.log(arr)
 
 

@@ -11,16 +11,12 @@ function socketEvents(io) {
         })
 
         socket.on('choosePlace', async function (obj) {
-            console.log(obj)
             let rez = await session.choosePlace(obj.idRoom, obj.idPlace);
-            console.log('rez')
-            console.log(rez)
             //socket.join(obj.id);
             socket.broadcast.to(obj.idRoom).emit('smdChoosePlace', obj.idPlace);
         })
 
         socket.on('cancelChoosePlace', async function (obj) {
-            console.log(obj)
             //socket.join(obj.id);
             socket.broadcast.to(obj.idRoom).emit('smdCancelChoosePlace', obj.idPlace);
         })

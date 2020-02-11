@@ -13,13 +13,9 @@ class filmController {
         });
         this.storage = multer.diskStorage({
             destination: function (req, file, cb) {
-                console.log('desrination')
                 cb(null, 'public')
             },
             filename: function (req, file, cb) {
-                console.log('filename')
-                console.log(req.params)
-                console.log(file)
                 cb(null, file.originalname )
             }
         })
@@ -33,11 +29,8 @@ class filmController {
     async createPoster(req, res) {
         this.upload(req, res, function (err) {
             if (err) {
-                console.log('error')
-                console.log(err)
                 return res.status(500).json(err)
             }
-            console.log('all fine')
             return res.status(200).send(req.file)
         })
     }

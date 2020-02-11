@@ -64,14 +64,11 @@ class adminController {
 
     logoutAdmin(req, res) {
         jwt.verify(req.token, 'access_token', async (err, authData) => {
-            console.log(this.tokens.includes(req.token))
             if (err && !this.tokens.includes(req.token)) {
                 res.sendStatus(403);
             } else {
-                console.log(this.tokens)
                 let index = this.tokens.indexOf(req.token);
                 this.tokens.splice(index, 1)
-                console.log(this.tokens);
                 res.json({
                     message: 'admin success logout'
                 })
@@ -84,7 +81,6 @@ class adminController {
             if (err) {
                 res.sendStatus(403);
             } else {
-                console.log(authData)
                 let admin = await this.admin.getAdminByUsername(authData.username);
                 res.json({
                     message: 'permission received',

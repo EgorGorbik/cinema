@@ -24,6 +24,41 @@ function Session(props) {
     const [ choosePlaces, changeChoosePlaces ] = useState([]);
 
     useEffect(() => {
+        choosePlaces.forEach(e => {
+            console.log(e.id)
+            console.log(document.getElementById(e.id))
+            if(document.getElementById(e.id)) {
+                document.getElementById(e.id).style.backgroundColor = '#F58080';
+            }
+        })
+    }, [choosePlaces])
+
+    useEffect(() => {
+        console.log(props.user.data);
+        if(props.user.data && props.session) {
+            console.log(props.user.data)
+            let choosePlaceId = props.user.data.chooseTicketInfo.idPlaces;
+            if(props.user.data.chooseTicketInfo.idSession === props.session._id) {
+                console.log('exist');
+                props.session.places.forEach(e => {
+                    console.log(e.id)
+                    if(choosePlaceId.includes(e.id)) {
+                        console.log(e)
+                        choosePlace(e)
+                    }
+                })
+            }
+            choosePlaces.forEach(e => {
+                console.log(e.id)
+                console.log(document.getElementById(e.id))
+                if(document.getElementById(e.id)) {
+                    document.getElementById(e.id).style.backgroundColor = '#F58080';
+                }
+            })
+        }
+    }, [props.user])
+
+    useEffect(() => {
         props.getFilms();
         props.getSession(props.match.params.id)
     }, [])
@@ -38,11 +73,7 @@ function Session(props) {
         }
     }, [props.session])
 
-    useEffect(() => {
-        if(!props.user.data) {
-            choosePlaces.forEach(e => {e.element.style.backgroundColor = 'white'})
-        }
-    }, [props.user])
+
 
     useEffect(() => {
         props.session && props.user.data &&
@@ -51,12 +82,16 @@ function Session(props) {
         });
     }, [props.session])
 
+    let deleteStyle = (element) => {
+        element.style.removeProperty("background-color");
+    }
+
     if(props.loader || !props.session) {
         return <Loader/>
     }
 
+    console.log(choosePlaces)
     console.log(props.session)
-
 
     let hall;
     if(!props.session) {
@@ -75,35 +110,46 @@ function Session(props) {
         }
     }
 
-    function choosePlace(e, element) {
+    function choosePlace(place) {
         if(props.user.data) {
-            let isChoosePlace = choosePlaces.find(el => el.id === e.id);
+            let isChoosePlace = choosePlaces.find(el => el.id === place.id);
                 if(isChoosePlace) {
-                    props.cancelChoosePlace(+element.target.id, props.session._id)
+                    //запрос на присвоенеие месту статуса 'свободно'
+                    props.cancelChoosePlace(place.id, props.session._id)
+
+                    //разослать по комнатам, что место снова свободно
                     socket.emit('cancelChoosePlace',{
-                        idPlace: element.target.id,
+                        idPlace: place.id,
                         idRoom: props.session._id
                     });
+
+                    //обновить локальный state
                     changeChoosePlaces((prevState => {
                         let newState = prevState;
-                        let index = newState.findIndex(el => el.id === e.id);
+                        let index = newState.findIndex(el => el.id === place.id);
                         newState.splice(index, 1);
                         return [...newState]
                     }));
-                    element.target.style.backgroundColor = 'white';
+
+                    //визуально убрать стили выбранного места
+                    deleteStyle(document.getElementById(place.id))
                 } else {
                     if(choosePlaces.length < 4) {
-                        props.choosePlace(+element.target.id, props.session._id)
+                        //запрос на присвоенеие месту статуса 'занято'
+                        props.choosePlace(place.id, props.session._id)
+
+                        //разослать по комнатам, что место занято
                         socket.emit('choosePlace',{
-                            idPlace: element.target.id,
+                            idPlace: place.id,
                             idRoom: props.session._id
                         });
-                        e.element = element.target;
-                        changeChoosePlaces((prevState => [...prevState, e]));
-                        e.element.style.backgroundColor = '#F58080';
+
+                        //обновить локальный state
+                        changeChoosePlaces((prevState => [...prevState, place]));
                     }
                 }
         } else {
+            //если пользователь не залогинен, открыть модальное окно Предложения войти в систему
             handleShow();
         }
     }

@@ -13,14 +13,14 @@ class ServiceFilm {
         films.forEach(el => {
             let currentTime = new Date();
             currentTime = currentTime.getTime();
-            setTimeout(() => {this.deleteFilm(el._id); console.log(el._id)}, el.date - currentTime)
+            setTimeout(() => {this.deleteFilm(el._id); }, el.date - currentTime)
         })
     }
 
     async hangTimerForOneFilm(film) {
         let currentTime = new Date();
         currentTime = currentTime.getTime();
-        setTimeout(() => {this.deleteFilm(film._id); console.log(film._id)}, film.date - currentTime)
+        setTimeout(() => {this.deleteFilm(film._id); }, film.date - currentTime)
     }
 
     async createFilm(userArg) {
@@ -53,10 +53,8 @@ class ServiceFilm {
     }
 
     async getFilm(_id) {
-        console.log('id ' + _id)
         try {
             let k = await this.film.find({_id});
-            console.log(k)
             return k
         } catch (e) {
             return e.message
