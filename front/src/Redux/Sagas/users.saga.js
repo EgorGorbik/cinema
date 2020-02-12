@@ -32,6 +32,22 @@ function* isUserCheck() {
     }
 }
 
+function* deleteChoosePlaces(action) {
+    yield put(loaderToTrue());
+    console.log(action)
+    try {
+        let { data } = yield call(users.updateUser, action.user);
+        // const data = yield axios({method: 'POST', url: 'http://localhost:5000/admin/getPermission', headers: {Authorization: 'Bearer ' + localStorage.getItem('admin_access_token')} } )
+        console.log(data)
+        yield put(setUserSuccess(data.user));
+        yield put(loaderToFalse());
+    } catch (error) {
+        /*   yield put(loaderToTrue());
+           yield put(accessDenied());*/
+        yield put(loaderToFalse());
+    }
+}
+
 function* logoutUser() {
     let { data } = yield call(users.logoutUser);
     localStorage.removeItem('user_access_token');
@@ -57,4 +73,5 @@ export default function* watchUserAuthManipulation() {
     yield takeEvery("CHECK_IS_USER", isUserCheck);
     yield takeEvery("LOGOUT_USER", logoutUser);
     yield takeEvery("REGISTER_USER", registerUser);
+    yield takeEvery("DELETE_CHOOSE_PLACES", deleteChoosePlaces);
 }

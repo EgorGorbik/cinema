@@ -25,8 +25,6 @@ function Session(props) {
 
     useEffect(() => {
         choosePlaces.forEach(e => {
-            console.log(e.id)
-            console.log(document.getElementById(e.id))
             if(document.getElementById(e.id)) {
                 document.getElementById(e.id).style.backgroundColor = '#F58080';
             }
@@ -34,23 +32,16 @@ function Session(props) {
     }, [choosePlaces])
 
     useEffect(() => {
-        console.log(props.user.data);
         if(props.user.data && props.session) {
-            console.log(props.user.data)
             let choosePlaceId = props.user.data.chooseTicketInfo.idPlaces;
             if(props.user.data.chooseTicketInfo.idSession === props.session._id) {
-                console.log('exist');
                 props.session.places.forEach(e => {
-                    console.log(e.id)
                     if(choosePlaceId.includes(e.id)) {
-                        console.log(e)
                         choosePlace(e)
                     }
                 })
             }
             choosePlaces.forEach(e => {
-                console.log(e.id)
-                console.log(document.getElementById(e.id))
                 if(document.getElementById(e.id)) {
                     document.getElementById(e.id).style.backgroundColor = '#F58080';
                 }
@@ -64,7 +55,6 @@ function Session(props) {
     }, [])
 
     useEffect(() => {
-        console.log(props.session)
         if(props.session && props.films) {
             let film = props.films.find(el => el._id === props.session.filmId) ;
             changeFilm(film.name);
@@ -80,7 +70,24 @@ function Session(props) {
         socket.emit('connectSessionRoom',{
             id: props.session._id
         });
-    }, [props.session])
+    }, [props.session, props.user])
+
+    useEffect(() => {
+        return () => {
+            if(localStorage.getItem('user_access_token')) {
+                let isDeleteChoosePlace = window.confirm('Вы уверены, что хотите уйти со страницы? Информация о выбранных местах будет удалена.')
+                if(isDeleteChoosePlace) {
+                    let user = props.user.data;
+                    user.chooseTicketInfo.idPlaces = [];
+                    props.deleteChooseUsersPlaces(user)
+                } else {
+                    console.log(props.history)
+                    props.history.goForward();
+                }
+            }
+        }
+    }, [])
+
 
     let deleteStyle = (element) => {
         element.style.removeProperty("background-color");
@@ -90,8 +97,6 @@ function Session(props) {
         return <Loader/>
     }
 
-    console.log(choosePlaces)
-    console.log(props.session)
 
     let hall;
     if(!props.session) {
@@ -115,7 +120,19 @@ function Session(props) {
             let isChoosePlace = choosePlaces.find(el => el.id === place.id);
                 if(isChoosePlace) {
                     //запрос на присвоенеие месту статуса 'свободно'
-                    props.cancelChoosePlace(place.id, props.session._id)
+                    console.log(props.user.data.chooseTicketInfo.idPlaces)
+                    console.log(place.id)
+                    let index = props.user.data.chooseTicketInfo.idPlaces.indexOf(place.id)
+                    console.log(index)
+                    let newArr = props.user.data.chooseTicketInfo.idPlaces;
+                    newArr.splice(index, 1);
+                    console.log(newArr)
+                    let user = props.user.data;
+                    user.chooseTicketInfo.idPlaces = newArr;
+                    user.chooseTicketInfo.idSession = props.session._id;
+                    console.log(user)
+
+                    props.cancelChoosePlace(place.id, props.session._id, user)
 
                     //разослать по комнатам, что место снова свободно
                     socket.emit('cancelChoosePlace',{
@@ -136,7 +153,12 @@ function Session(props) {
                 } else {
                     if(choosePlaces.length < 4) {
                         //запрос на присвоенеие месту статуса 'занято'
-                        props.choosePlace(place.id, props.session._id)
+                        let user = props.user.data;
+                        if(!user.chooseTicketInfo.idPlaces.includes(place.id)) {
+                            user.chooseTicketInfo.idPlaces.push(place.id)
+                        }
+                        user.chooseTicketInfo.idSession = props.session._id;
+                        props.choosePlace(place.id, props.session._id, user)
 
                         //разослать по комнатам, что место занято
                         socket.emit('choosePlace',{
@@ -212,8 +234,9 @@ const mapDispatchToProps = (dispatch) =>  ({
     getSessions: (date) => {dispatch({type: 'GET_SESSIONS', date: date})},
     getSession: (id) => {dispatch({type: 'GET_SESSION', id: id})},
     deleteSession: (id) => {dispatch({type: 'DEL_SESSION', id: id})},
-    choosePlace: (idPlace, idSession) => {dispatch({type: 'CHOOSE_PLACE', data: {idPlace: idPlace, idSession: idSession}})},
-    cancelChoosePlace: (idPlace, idSession) => {dispatch({type: 'CANCEL_CHOOSE_PLACE', data: {idPlace: idPlace, idSession: idSession}})},
+    choosePlace: (idPlace, idSession, user) => {dispatch({type: 'CHOOSE_PLACE', data: {idPlace: idPlace, idSession: idSession}, user: user})},
+    deleteChooseUsersPlaces: (user) => dispatch({type: 'DELETE_CHOOSE_PLACES', user: user}),
+    cancelChoosePlace: (idPlace, idSession, user) => {dispatch({type: 'CANCEL_CHOOSE_PLACE', data: {idPlace: idPlace, idSession: idSession}, user: user})},
 });
 
 export default withRouter(connect(

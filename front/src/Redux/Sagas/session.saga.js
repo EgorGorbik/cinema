@@ -4,16 +4,18 @@ import {loaderToFalse, loaderToTrue} from "../ActionCreators/loader.action";
 import {loginAdminError, loginAdminSuccess} from "../ActionCreators/admin.action";
 import * as films from '../Service/film.service';
 import * as sessions from '../Service/session.service';
+import * as users from '../Service/user.service';
 import {getFilmsSuccess, deleteFilmSuccess, createFilmSuccess, editFilmSuccess} from "../ActionCreators/films.action";
-import {createSessionSuccess, setSessionsSuccess, setSessionSuccess, deleteSessionSuccess, setSessionFaild} from "../ActionCreators/sessions";
+import {createSessionSuccess, setSessionsSuccess, setSessionSuccess, deleteSessionSuccess, setSessionFaild, meCancelChoosePlaceSuccess} from "../ActionCreators/sessions";
 
 function* getSessions(action) {
     try {
         let { data } = yield call(sessions.getSessions, action.date);
+        console.log(data)
         yield put(setSessionsSuccess(data.sessions));
        // yield put(getFilmsSuccess(data.films));
     } catch (error) {
-        alert(error)
+        console.log(error)
     }
 }
 
@@ -41,21 +43,24 @@ function* deleteSession(action) {
 }
 
 function* choosePlace(action) {
-    console.log('choosePlace')
     try {
         let {data} = yield call(sessions.choosePlace, action.data);
-        console.log(data)
+        let user = yield call(users.updateUser, action.user);   // запрос на update user info
+        console.log(user)
     } catch (error) {
-        console.log(error)
+        alert(error)
     }
 }
 
 function* cancelChoosePlace(action) {
     try {
-        let {data} = yield call(sessions.cancelChoosePlace, action.data);
-        console.log(data)
+        console.log(action.user)
+        let {data} = yield call(sessions.cancelChoosePlace, action.data);   // запрос на присвоению места в бд статуса 'свободно'
+        let user = yield call(users.updateUser, action.user);   // запрос на update user info
+        console.log(user)
+        yield put(meCancelChoosePlaceSuccess(data))
     } catch (error) {
-        console.log(error)
+        alert(error)
     }
 }
 

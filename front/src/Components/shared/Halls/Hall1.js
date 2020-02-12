@@ -20,9 +20,6 @@ function Hall1(props) {
         rows.push(<div className='row'>{i} ряд</div>)
     }
 
-    console.log(props.user)
-
-    console.log(props.session)
     return (
         <div className='hall'>
             <div className='places'>

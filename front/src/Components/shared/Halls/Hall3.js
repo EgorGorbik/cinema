@@ -11,19 +11,26 @@ function Hall3 (props) {
         )
     }
 
+    if(localStorage.getItem('user_access_token') && !props.user.data) {
+        return <Loader/>
+    }
+
     let rows = [];
     for(let i = 1; i <= 5; i++) {
         rows.push(<div className='row'>{i} ряд</div>)
     }
 
+    console.log(props.session)
     return (
         <div className='hall'>
             <div className='places'>
                 {
                     props.session.places.map(e => {
-                        if(e.isFree) {
+                        if(e.isFree || localStorage.getItem('user_access_token') && props.user.data.chooseTicketInfo.idPlaces.includes(e.id)) {
+                            console.log(e)
                             return <div id={e.id} key={e.id} onClick={() => props.isUser && props.choosePlace(e)} className='place place_hall3 free_place' isFree={e.isFree}>{e.place}</div>
                         } else {
+                            console.log(e)
                             return <div id={e.id} key={e.id} className='place place_hall3 taken_place' isFree={e.isFree}>{e.place}</div>
                         }
                     })
@@ -39,7 +46,8 @@ function Hall3 (props) {
 const mapStateToProps = (state) => ({
     sessions: state.sessions,
     session: state.session,
-    loader: state.loader
+    loader: state.loader,
+    user: state.user
 });
 
 const mapDispatchToProps = (dispatch) =>  ({

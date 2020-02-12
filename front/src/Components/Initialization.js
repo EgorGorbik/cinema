@@ -6,7 +6,7 @@ import {socket} from "../config/socket";
 import userEvent from "@testing-library/user-event";
 
 function Initialization(props) {
-    //здесь происходят действия при перезагрузке страницы
+    //здесь происходят действия при перезагрузке/загрузке страницы
 
     useEffect(() => {
         socket.on('socketInRoom',(e) => {
@@ -27,7 +27,7 @@ function Initialization(props) {
 
     useEffect(() => {
         props.checkIsAdmin();
-    }, [props.checkIsAdmin]);
+    }, []);
 
     useEffect(() => {
         props.checkIsUser()

@@ -9,6 +9,7 @@ export function getSessions(date) {
 }
 
 export function getSession(id) {
+    console.log(id)
     return axios.request({
         method: 'get',
         url: `http://localhost:5000/session/${id}`
@@ -38,8 +39,6 @@ export function addSession(data) {
 }
 
 export function choosePlace(data) {
-    console.log('service')
-    console.log(data)
     return axios.request({
         method: 'put',
         url: `http://localhost:5000/choosePlace`,

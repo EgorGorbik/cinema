@@ -22,6 +22,8 @@ export default (state = null, action) => {
                 }
             })
             return {...state, places: cancelPlaces}
+        case 'ME_CANCEL_CHOOSE_PLACE_SUCCESS':
+            return action.session
         case 'SET_SESSION_FAILD':
             return null
         default:

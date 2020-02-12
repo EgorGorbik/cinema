@@ -58,8 +58,9 @@ class ServiceSession {
 
     async getSessionByDate(date) {
         try {
-
-            return {sessions: sessions, films: f}
+            let newSessions = await this.session.find({});
+            newSessions = newSessions.filter(e => {if(e.date === date) {return e}})
+            return {sessions: newSessions}
         } catch (e) {
             return e.message
         }
