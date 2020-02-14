@@ -14,12 +14,10 @@ function Initialization(props) {
         })
 
         socket.on('smdChoosePlace',(e) => {
-            console.log(e)
             props.smdChoosePlace(e)
         })
 
         socket.on('smdCancelChoosePlace',(e) => {
-            console.log(e)
             props.smdCancelChoosePlace(e)
         })
 

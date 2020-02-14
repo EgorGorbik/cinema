@@ -26,7 +26,10 @@ function Hall1(props) {
                 {
                    props.session.places.map(e => {
                        if(e.isFree || localStorage.getItem('user_access_token') && props.user.data.chooseTicketInfo.idPlaces.includes(e.id)) {
-                           return <div id={e.id} key={e.id} onClick={(element) => {props.isUser && props.choosePlace(e)}} className='place place_hall1 free_place' isFree={e.isFree}>{e.place}</div>
+                           return <div id={e.id} key={e.id} onClick={(element) => {
+                               console.log(e)
+                               return props.isUser && props.choosePlace(e)
+                           }} className='place place_hall1 free_place' isFree={e.isFree}>{e.place}</div>
                        } else {
                            return <div id={e.id} key={e.id} className='place place_hall1 taken_place' isFree={e.isFree}>{e.place}</div>
                        }

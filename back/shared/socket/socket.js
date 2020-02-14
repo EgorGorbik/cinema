@@ -6,7 +6,6 @@ function socketEvents(io) {
     io.on('connection',function(socket){
 
         socket.on('connectSessionRoom', async function (obj) {
-            console.log(obj)
             socket.join(obj.id);
             //io.sockets.in(obj.id).emit('socketInRoom', 'на этой сеансе кто то ещ>');
         })

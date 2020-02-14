@@ -43,7 +43,6 @@ class sessionController {
     }
 
     async cancelChoosePlace(req, res) {
-        console.log('cancel')
         let session = await this.session.getSession(req.body.idSession);
         let newPlacesArray = [];
         newPlacesArray = session[0].places.map(e => {
@@ -55,6 +54,22 @@ class sessionController {
             }
         })
         session[0].places = newPlacesArray
+        let rez = await this.session.updateSession(req.body.idSession, session[0])
+        res.send(rez)
+    }
+
+    async cancelChoosePlaces(req, res) {
+        let session = await this.session.getSession(req.body.idSession);
+        let newPlacesArray = [];
+        newPlacesArray = session[0].places.map(e => {
+            if(req.body.idPlaces.includes(e.id)) {
+                e.isFree = true;
+                return e;
+            } else {
+                return e;
+            }
+        })
+        session[0].places = newPlacesArray;
         let rez = await this.session.updateSession(req.body.idSession, session[0])
         res.send(rez)
     }

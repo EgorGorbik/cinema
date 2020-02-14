@@ -11,7 +11,6 @@ import {createSessionSuccess, setSessionsSuccess, setSessionSuccess, deleteSessi
 function* getSessions(action) {
     try {
         let { data } = yield call(sessions.getSessions, action.date);
-        console.log(data)
         yield put(setSessionsSuccess(data.sessions));
        // yield put(getFilmsSuccess(data.films));
     } catch (error) {
@@ -46,7 +45,6 @@ function* choosePlace(action) {
     try {
         let {data} = yield call(sessions.choosePlace, action.data);
         let user = yield call(users.updateUser, action.user);   // запрос на update user info
-        console.log(user)
     } catch (error) {
         alert(error)
     }
@@ -54,10 +52,8 @@ function* choosePlace(action) {
 
 function* cancelChoosePlace(action) {
     try {
-        console.log(action.user)
         let {data} = yield call(sessions.cancelChoosePlace, action.data);   // запрос на присвоению места в бд статуса 'свободно'
         let user = yield call(users.updateUser, action.user);   // запрос на update user info
-        console.log(user)
         yield put(meCancelChoosePlaceSuccess(data))
     } catch (error) {
         alert(error)

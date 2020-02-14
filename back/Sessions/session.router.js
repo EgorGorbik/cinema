@@ -10,5 +10,6 @@ function router(app) {
 
     app.put('/choosePlace', (req, res) => controller.choosePlace(req, res));
     app.put('/cancelChoosePlace', (req, res) => controller.cancelChoosePlace(req, res));
+    app.put('/cancelChoosePlaces', (req, res) => controller.cancelChoosePlaces(req, res));
 }
 module.exports = router;

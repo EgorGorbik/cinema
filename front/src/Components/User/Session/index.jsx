@@ -13,6 +13,7 @@ import {socket} from "../../../config/socket";
 
 function Session(props) {
     const [show, setShow] = useState(false);
+    const [isInitial, changeInitialFlag] = useState(true);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -29,25 +30,29 @@ function Session(props) {
                 document.getElementById(e.id).style.backgroundColor = '#F58080';
             }
         })
-    }, [choosePlaces])
+    }, [choosePlaces, document.getElementById('1')])
 
     useEffect(() => {
-        if(props.user.data && props.session) {
-            let choosePlaceId = props.user.data.chooseTicketInfo.idPlaces;
-            if(props.user.data.chooseTicketInfo.idSession === props.session._id) {
-                props.session.places.forEach(e => {
-                    if(choosePlaceId.includes(e.id)) {
-                        choosePlace(e)
+            if(props.user.data && props.session) {
+                if(isInitial) {
+                    let choosePlaceId = props.user.data.chooseTicketInfo.idPlaces;
+                    if(props.user.data.chooseTicketInfo.idSession === props.session._id) {
+                        props.session.places.forEach(e => {
+                            if(choosePlaceId.includes(e.id)) {
+                                choosePlace(e)
+                            }
+                        })
                     }
-                })
-            }
-            choosePlaces.forEach(e => {
-                if(document.getElementById(e.id)) {
-                    document.getElementById(e.id).style.backgroundColor = '#F58080';
+                    /*choosePlaces.forEach(e => {
+                        if(document.getElementById(e.id)) {
+                            document.getElementById(e.id).style.backgroundColor = '#F58080';
+                        }
+                    })*/
+                    changeInitialFlag(false)
+                    console.log(isInitial)
                 }
-            })
-        }
-    }, [props.user])
+            }
+    }, [props.user, props.session])
 
     useEffect(() => {
         props.getFilms();
@@ -72,19 +77,35 @@ function Session(props) {
         });
     }, [props.session, props.user])
 
+
+    // вызывается непосредственно перед закрытием компоненты
     useEffect(() => {
-        return () => {
-            if(localStorage.getItem('user_access_token')) {
-                let isDeleteChoosePlace = window.confirm('Вы уверены, что хотите уйти со страницы? Информация о выбранных местах будет удалена.')
-                if(isDeleteChoosePlace) {
-                    let user = props.user.data;
-                    user.chooseTicketInfo.idPlaces = [];
-                    props.deleteChooseUsersPlaces(user)
-                } else {
-                    console.log(props.history)
-                    props.history.goForward();
+        console.log('почему он вызывается')
+        if(props.user.data) {
+            return () => {
+                if(localStorage.getItem('user_access_token')) {
+                    let isDeleteChoosePlace = window.confirm('Вы уверены, что хотите уйти со страницы? Информация о выбранных местах будет удалена.')
+                    if(isDeleteChoosePlace) {
+                        let user = props.user.data
+                        //user.chooseTicketInfo.idPlaces = [];
+                        user.chooseTicketInfo.idPlaces.forEach(e => {
+                            socket.emit('cancelChoosePlace',{
+                                idPlace: e,
+                                idRoom: props.match.params.id
+                            });
+                        })
+                        props.deleteChooseUsersPlaces(user, props.match.params.id)
+                    } else {
+                        props.history.push(`/session/${props.match.params.id}`)
+                    }
                 }
             }
+        }
+    }, []) // возможно тут нужно передать props.user
+
+    useEffect(() => {
+        return () => {
+            console.log('standard useEffect')
         }
     }, [])
 
@@ -120,17 +141,12 @@ function Session(props) {
             let isChoosePlace = choosePlaces.find(el => el.id === place.id);
                 if(isChoosePlace) {
                     //запрос на присвоенеие месту статуса 'свободно'
-                    console.log(props.user.data.chooseTicketInfo.idPlaces)
-                    console.log(place.id)
                     let index = props.user.data.chooseTicketInfo.idPlaces.indexOf(place.id)
-                    console.log(index)
                     let newArr = props.user.data.chooseTicketInfo.idPlaces;
                     newArr.splice(index, 1);
-                    console.log(newArr)
                     let user = props.user.data;
                     user.chooseTicketInfo.idPlaces = newArr;
                     user.chooseTicketInfo.idSession = props.session._id;
-                    console.log(user)
 
                     props.cancelChoosePlace(place.id, props.session._id, user)
 
@@ -179,23 +195,29 @@ function Session(props) {
     const payment = () => {
         let totalPrice = props.session.price * choosePlaces.length;
         let isPay = window.confirm(`общая стоимость ${totalPrice}р. Оплатить заказ?`);
-
+        if(isPay) {
+            let user = props.user.data;
+            user.purchasedPlaces = user.chooseTicketInfo.idPlaces;
+            console.log(user)
+            props.deleteChooseUsersPlaces(user, props.session._id) // тут должен быть другой метод, который перенесет в купленые билеты юзера а также в сеансе пометит как занятые места
+        }
     }
 
     return (
-        <div>{
-           !localStorage.getItem('user_access_token') &&
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Войдите в систему!</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Вы не можете выбирать места пока вы не в системе. Пожалуйста выполните вход или зарегистрируйтесь.</Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={() => props.history.push('/login')}>Войти</Button>
-                    <Button onClick={() => props.history.push('/registration')}>Зарегистрироваться</Button>
-                </Modal.Footer>
-            </Modal>
-        }
+        <div>
+            {
+               !localStorage.getItem('user_access_token') &&
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Войдите в систему!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Вы не можете выбирать места пока вы не в системе. Пожалуйста выполните вход или зарегистрируйтесь.</Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={() => props.history.push('/login')}>Войти</Button>
+                        <Button onClick={() => props.history.push('/registration')}>Зарегистрироваться</Button>
+                    </Modal.Footer>
+                </Modal>
+            }
 
 
 
@@ -235,7 +257,7 @@ const mapDispatchToProps = (dispatch) =>  ({
     getSession: (id) => {dispatch({type: 'GET_SESSION', id: id})},
     deleteSession: (id) => {dispatch({type: 'DEL_SESSION', id: id})},
     choosePlace: (idPlace, idSession, user) => {dispatch({type: 'CHOOSE_PLACE', data: {idPlace: idPlace, idSession: idSession}, user: user})},
-    deleteChooseUsersPlaces: (user) => dispatch({type: 'DELETE_CHOOSE_PLACES', user: user}),
+    deleteChooseUsersPlaces: (user, idSession) => dispatch({type: 'DELETE_CHOOSE_PLACES', user: user, idSession: idSession}),
     cancelChoosePlace: (idPlace, idSession, user) => {dispatch({type: 'CANCEL_CHOOSE_PLACE', data: {idPlace: idPlace, idSession: idSession}, user: user})},
 });
 

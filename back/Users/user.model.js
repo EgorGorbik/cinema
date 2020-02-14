@@ -5,7 +5,8 @@ var usersSchema = new mongoose.Schema({
     surname: String,
     username: String,
     password: String,
-    chooseTicketInfo: Object
+    chooseTicketInfo: Object,
+    purchasedPlaces: Array
 });
 
 mongoose.model('User', usersSchema);

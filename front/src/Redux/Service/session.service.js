@@ -9,7 +9,6 @@ export function getSessions(date) {
 }
 
 export function getSession(id) {
-    console.log(id)
     return axios.request({
         method: 'get',
         url: `http://localhost:5000/session/${id}`
@@ -51,6 +50,14 @@ export function cancelChoosePlace(data) {
     return axios.request({
         method: 'put',
         url: `http://localhost:5000/cancelChoosePlace`,
+        data: data
+    });
+}
+
+export function cancelChoosePlaces(data) {
+    return axios.request({
+        method: 'put',
+        url: `http://localhost:5000/cancelChoosePlaces`,
         data: data
     });
 }

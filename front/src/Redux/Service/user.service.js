@@ -13,7 +13,6 @@ export const fetchUserData = async () => {
 }
 
 export function updateUser(data) {
-    console.log(data)
     return axios.request({
         method: 'put',
         url: `http://localhost:5000/user/${data._id}`,

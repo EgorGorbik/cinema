@@ -4,6 +4,7 @@ import axios from "axios";
 import {accessDenied, loginAdminError, loginAdminSuccess, logoutAdminSuccess} from "../ActionCreators/admin.action";
 import * as users from "../Service/user.service";
 import {setUserSuccess, logoutUserSuccess, setUserFailed} from "../ActionCreators/user.action";
+import {cancelChoosePlaces} from "../Service/session.service";
 
 function* loginUser(action) {
     try {
@@ -34,12 +35,16 @@ function* isUserCheck() {
 
 function* deleteChoosePlaces(action) {
     yield put(loaderToTrue());
-    console.log(action)
     try {
+        let obj = {
+            idSession: action.idSession,
+            idPlaces: action.user.chooseTicketInfo.idPlaces
+        }
+        let session = yield call(cancelChoosePlaces, obj);
+        action.user.chooseTicketInfo.idPlaces = [];
         let { data } = yield call(users.updateUser, action.user);
         // const data = yield axios({method: 'POST', url: 'http://localhost:5000/admin/getPermission', headers: {Authorization: 'Bearer ' + localStorage.getItem('admin_access_token')} } )
-        console.log(data)
-        yield put(setUserSuccess(data.user));
+        yield put(setUserSuccess(data));
         yield put(loaderToFalse());
     } catch (error) {
         /*   yield put(loaderToTrue());
